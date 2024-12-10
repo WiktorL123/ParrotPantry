@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/user")
@@ -23,18 +24,35 @@ public class UserController {
         return userService.getUsers();
     }
 
-    @PostMapping
-    public void registerNewStudent(@RequestBody User user) {
-        userService.addUser(user);
-    }
-
-    @PutMapping
-    public ResponseEntity<User> updateUser(@RequestBody User updatedUser) {
-        User user = userService.updateUser(updatedUser);
-        if(user != null) {
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<User> getUser(@PathVariable int id) {
+        User user = userService.getUserById(id);
+        if (user != null) {
             return new ResponseEntity<>(user, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<User> partiallyUpdateUser(
+            @PathVariable int id,
+            @RequestBody Map<String, Object> updates) {
+        User updatedUser = userService.partiallyUpdateUser(id, updates);
+        if (updatedUser != null) {
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("api/auth/register")
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
+        try {
+            User registeredUser = userService.registerUser(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(registeredUser);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 

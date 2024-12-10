@@ -11,11 +11,16 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "username", unique = true)
     private String username;
+    @Column(name = "password")
     private String password;
+    @Column(name = "email", unique = true)
     private String email;
+    @Column(name = "created_at", updatable = false)
     private LocalDate created_at;
-    private boolean is_admin;
+    @Column(name = "is_admin", nullable = false)
+    private Boolean is_admin = false;
 
     public User() {
     }
@@ -79,12 +84,16 @@ public class User {
         this.is_admin = is_admin;
     }
 
+    @PrePersist
+    public void prePersist() {
+        this.created_at = LocalDate.now();
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", created_at=" + created_at +
                 ", is_admin=" + is_admin +

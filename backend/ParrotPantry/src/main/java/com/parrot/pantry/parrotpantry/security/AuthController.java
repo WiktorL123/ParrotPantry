@@ -4,14 +4,15 @@ import com.parrot.pantry.parrotpantry.user.User;
 import com.parrot.pantry.parrotpantry.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/user")
 public class AuthController {
+
+    //auth controller rozdziela CRUD od operacji autoryzacyjnych, niby to jest dobra praktyka
+    //ale narazie jeszcze u nas nie ma az takiego zastosowania bo to sa zduplikowane metody z controllera
+    //userController
 
     private final UserService userService;
 
@@ -19,19 +20,18 @@ public class AuthController {
         this.userService = userService;
     }
 
-    @PostMapping("api/auth/register")
+    @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user) {
         try {
             userService.registerUser(user);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Uzytkownik zarejestrowany pomyslnie!");
+            return ResponseEntity.status(HttpStatus.CREATED).body("Użytkownik zarejestrowany pomyślnie!");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
-    @PostMapping("api/auth/login")
+    @PostMapping("/login")
     public ResponseEntity<String> login() {
-        return ResponseEntity.ok("Logowanie pomyslne!");
+        return ResponseEntity.ok("Logowanie pomyślne!");
     }
-
 }

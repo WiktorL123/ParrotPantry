@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
@@ -24,7 +24,7 @@ public class UserController {
         return userService.getUsers();
     }
 
-    @GetMapping(path = "/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable int id) {
         User user = userService.getUserById(id);
         if (user != null) {
@@ -46,16 +46,6 @@ public class UserController {
         }
     }
 
-    @PostMapping("api/auth/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        try {
-            User registeredUser = userService.registerUser(user);
-            return ResponseEntity.status(HttpStatus.CREATED).body(registeredUser);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable int id) {
         boolean deleted = userService.deleteUserById(id);
@@ -65,5 +55,4 @@ public class UserController {
             return ResponseEntity.notFound().build(); // 404 Not Found
         }
     }
-
 }

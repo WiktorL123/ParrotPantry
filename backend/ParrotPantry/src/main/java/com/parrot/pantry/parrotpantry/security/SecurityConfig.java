@@ -17,6 +17,8 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    //ta klasa jest po to zeby przechodzily cors nie swirowalo przy zapytaniach CRUD
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -30,21 +32,20 @@ public class SecurityConfig {
                 }))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/register", "/api/auth/login", "/user/**").permitAll()
+                        .requestMatchers("/api/user/register", "/api/user/login", "/api/user/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/api/auth/login").permitAll()
+                        .loginPage("/api/user/login").permitAll()
                         .defaultSuccessUrl("/welcome", true)
                 )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/api/auth/login")
+                        .logoutSuccessUrl("/api/user/login")
                         .permitAll()
                 );
 
         return http.build();
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {

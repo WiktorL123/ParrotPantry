@@ -2,6 +2,7 @@ package com.parrot.pantry.parrotpantry.security;
 
 import com.parrot.pantry.parrotpantry.user.User;
 import com.parrot.pantry.parrotpantry.user.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ public class AuthController {
 
     private final UserService userService;
 
+    @Autowired
     public AuthController(UserService userService) {
         this.userService = userService;
     }
@@ -30,8 +32,8 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login() {
-        return ResponseEntity.ok("Logowanie pomyślne!");
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<String> login() {
+//        return ResponseEntity.ok("Logowanie pomyślne!");
+//    }
 }

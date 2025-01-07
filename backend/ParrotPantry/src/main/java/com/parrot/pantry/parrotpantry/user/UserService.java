@@ -1,5 +1,6 @@
 package com.parrot.pantry.parrotpantry.user;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -85,13 +86,11 @@ public class UserService {
 //        }
 //    }
 
-    public boolean deleteUserById(int id) {
-        if (userRepository.existsById(id)) {
-            userRepository.deleteById(id);
-            return true;
-        } else {
-            return false;
+    public void deleteUserById(int id) {
+        if (!userRepository.existsById(id)) {
+            throw new EntityNotFoundException("Uzytkownik z podanym ID nie istnieje");
         }
+        userRepository.deleteById(id);
     }
 
     public User registerUser(User user) {

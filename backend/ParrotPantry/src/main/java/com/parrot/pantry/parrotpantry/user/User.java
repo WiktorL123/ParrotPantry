@@ -1,8 +1,12 @@
 package com.parrot.pantry.parrotpantry.user;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.parrot.pantry.parrotpantry.parrot.Parrot;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "\"user\"")
@@ -11,6 +15,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Parrot> parrots = new ArrayList<>();
     @Column(name = "username", unique = true)
     private String username;
     @Column(name = "password")
@@ -34,6 +41,14 @@ public class User {
         this.email = email;
         this.created_at = created_at;
         this.is_admin = is_admin;
+    }
+
+    public List<Parrot> getParrots() {
+        return parrots;
+    }
+
+    public void setParrots(List<Parrot> parrots) {
+        this.parrots = parrots;
     }
 
     public int getId() {
@@ -76,11 +91,11 @@ public class User {
         this.created_at = created_at;
     }
 
-    public boolean isIs_admin() {
+    public Boolean getIs_admin() {
         return is_admin;
     }
 
-    public void setIs_admin(boolean is_admin) {
+    public void setIs_admin(Boolean is_admin) {
         this.is_admin = is_admin;
     }
 

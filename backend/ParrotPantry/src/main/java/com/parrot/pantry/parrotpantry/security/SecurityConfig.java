@@ -32,13 +32,16 @@ public class SecurityConfig {
                 }))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/user/register", "/api/user/login", "/api/user/**").permitAll()
+                        .requestMatchers(
+                                "/api/user/register", "/api/user/login", "/api/user/**",
+                                "/api/parrot/**", "/api/dietplan/**", "/api/veterinarian/**",
+                                "/api/shop/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form
-                        .loginPage("/api/user/login").permitAll()
-                        .defaultSuccessUrl("/welcome", true)
-                )
+//                .formLogin(form -> form
+//                        .loginPage("/api/user/login").permitAll()
+//                        .defaultSuccessUrl("/welcome", true)
+//                )
                 .logout(logout -> logout
                         .logoutSuccessUrl("/api/user/login")
                         .permitAll()

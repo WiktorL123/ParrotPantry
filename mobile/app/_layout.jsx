@@ -1,13 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
+import {Slot, Stack} from 'expo-router'
+import "../global.css";
 
-export default function App() {
+const RootLayout = () => {
     return (
-        <View className="flex-1 items-center justify-center p-5 bg-white">
-            <Text>Open up App.js to start working on your app!</Text>
-            <StatusBar style="auto" />
-        </View>
-    );
+        <Stack>
+            <Stack.Screen name="index" options={{headerShown: false}}/>
+        </Stack>
+    )
 }
+
+export default RootLayout;
 
 

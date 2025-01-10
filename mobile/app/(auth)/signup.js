@@ -2,11 +2,14 @@ import {Text, View} from "react-native";
 import Header from "../../components/Heading"
 import AddPhotoButton from "../../components/AddPhotoButton";
 import CustomTextInput from "../../components/CustomTextInput";
+import {useTheme} from "../../context/ThemeContext";
 
 
 export default function signup() {
+
+    const { theme } = useTheme()
     return (
-        <View className="bg-white h-screen">
+        <View className={`${theme==='dark' ? 'bg-darkBgPrimary' :'bg-white'} h-screen`}>
             <View>
                 <Header className="ml-10 py-4" text="Create new account" />
             </View>

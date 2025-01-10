@@ -3,6 +3,7 @@ import Header from "../../components/Heading"
 import AddPhotoButton from "../../components/AddPhotoButton";
 import CustomTextInput from "../../components/CustomTextInput";
 import {useTheme} from "../../context/ThemeContext";
+import Button from "../../components/Button";
 
 
 export default function signup() {
@@ -21,6 +22,7 @@ export default function signup() {
                 <CustomTextInput placeholder="E-mail Address" />
                 <CustomTextInput placeholder="Password" />
                 <CustomTextInput placeholder="Confirm Password" />
+                <Button text="Sign Up" className='bg-bgPrimary my-16' textClassName="text-white"/>
             </View>
         </View>
     )

@@ -1,14 +1,17 @@
 import {Stack} from "expo-router";
+import {useTheme} from "../../context/ThemeContext";
 
 
 export default function AuthLayout() {
+    const { theme } = useTheme();
+
     return (
         <Stack>
             <Stack.Screen name="login" options={{
                 headerTitle: "",
                 headerTintColor: "#5125BF",
                 headerStyle: {
-                    backgroundColor: "#ffffff"
+                    backgroundColor: theme === 'dark' ? '#121212' : '#FFFFFF'
                 },
                 headerShadowVisible: false
             }} />
@@ -16,7 +19,7 @@ export default function AuthLayout() {
                 headerTitle: "",
                 headerTintColor: "#5125BF",
                 headerStyle: {
-                    backgroundColor: "#ffffff"
+                    backgroundColor: theme === 'dark' ? '#121212' : '#FFFFFF'
                 },
                 headerShadowVisible: false
             }} />
@@ -24,7 +27,7 @@ export default function AuthLayout() {
                 headerTitle: "",
                 headerTintColor: "#5125BF",
                 headerStyle: {
-                    backgroundColor: "#ffffff"
+                    backgroundColor: theme === 'dark' ? '#121212' : '#FFFFFF'
                 },
                 headerShadowVisible: false
             }} />

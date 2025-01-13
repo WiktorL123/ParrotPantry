@@ -16,8 +16,8 @@ const signupSchema = Yup.object().shape({
         .email("must be an valid email address")
         .required('Email is required'),
     password: Yup.string()
-        .required("Password is required").
-        min(6, "password must be at least 6 characters long"),
+        .required("Password is required")
+        .min(6, "password must be at least 6 characters long"),
     confirmPassword: Yup.string()
         .oneOf([Yup.ref("password"), null], "Passwords must match")
         .required("Confirm password is required"),
@@ -35,6 +35,8 @@ export default function signup() {
         confirmPassword: "",
     })
     const [errors, setErrors] = useState({})
+    const [success, setSuccess] = useState("")
+    const [globalError, setGlobalError] = useState("")
 
     const handleChange = (field, value) => {
         setFormData({...formData, [field]: value})
@@ -43,20 +45,38 @@ export default function signup() {
     const handleSubmit = async () => {
         try {
             setErrors({})
+            setSuccess("")
+            setGlobalError("")
             await signupSchema.validate(formData, {abortEarly: false})
-            Toast.show({
-                type: "success",
-                text1: "Sign up successfully",
-                text2: "You can log in now",
-
+            const response = await fetch('http://10.0.2.2:8080/api/register', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData)
             })
+            if (!response.ok) {
+                const errorData = await response.json()
+                console.log(errorData)
+                throw new Error(errorData.message || "Register failed.")
+            }
+            const data = await response.json()
+            setSuccess(`succes, welcome, ${data.username}`)
+            console.log(success)
+            console.log(formData)
         }
-        catch (validationError) {
-            const formattedErrors = {}
-            validationError.inner.forEach(error => {
-                formattedErrors[error.path] = error.message
-            })
-            setErrors(formattedErrors)
+        catch (err) {
+            if (err.name==="ValidationError") {
+                const formattedErrors = {}
+                err.inner.forEach(error => {
+                    formattedErrors[error.path] = error.message
+                })
+                setErrors(formattedErrors)
+            }
+            else {
+                setGlobalError(err.message)
+            }
+
         }
     }
 
@@ -72,6 +92,7 @@ export default function signup() {
                     value={formData.firstName}
                     onChange={(value)=>handleChange("firstName", value)}
                     error = {errors.firstName}
+                    secureTextEntry={false}
                 />
                 {errors.firstName && (
                     <Text className="text-red-500 text-sm mt-1">{errors.firstName}</Text>
@@ -81,6 +102,7 @@ export default function signup() {
                     value={formData.lastName}
                     onChange={(value)=>handleChange("lastName", value)}
                     error = {errors.lastName}
+                    secureTextEntry={false}
                 />
 
                 {errors.lastName && (<Text className="text-red-500 text-sm mt-1">{errors.lastName}</Text>)}
@@ -90,6 +112,7 @@ export default function signup() {
                     value={formData.username}
                     onChange={(value)=>handleChange("username", value)}
                     error = {errors.username}
+                    secureTextEntry={false}
                 />
                 {errors.username && (<Text className="text-red-500 text-sm mt-1">{errors.username}</Text>)}
 
@@ -98,6 +121,7 @@ export default function signup() {
                     value={formData.email}
                     onChange={(value)=>handleChange("email", value)}
                     error = {errors.email}
+                    secureTextEntry={false}
                 />
 
                 {errors.email && (<Text className="text-red-500 text-sm mt-1">{errors.email}</Text>)}
@@ -107,6 +131,7 @@ export default function signup() {
                     value={formData.password}
                     onChange={(value)=>handleChange("password", value)}
                     error = {errors.password}
+                    secureTextEntry={true}
                 />
 
                 {errors.confirmPassword && (<Text className="text-red-500 text-sm mt-1">{errors.confirmPassword}</Text>)}
@@ -116,11 +141,14 @@ export default function signup() {
                     value={formData.confirmPassword}
                     onChange={(value)=>handleChange("confirmPassword", value)}
                     error = {errors.confirmPassword}
+                    secureTextEntry={true}
                 />
 
-                {errors.confirmPassword && (<Text className="text-red-500 text-sm mt-1">{errors.confirmPassword}</Text>)}
+                {errors.confirmPassword && (<Text className="text-red-500 text-sm mt-0.5">{errors.confirmPassword}</Text>)}
 
                 <Button text="Sign Up" className='bg-bgPrimary my-16' textClassName="text-white" onPress={handleSubmit}/>
+                {success && (<Text className="text-green-500 text-sm mt-1">{success}</Text>)}
+                {globalError && (<Text className="text-red-600 text-lg mt-1">{globalError}</Text>)}
             </View>
         </View>
     )

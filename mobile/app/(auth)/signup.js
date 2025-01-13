@@ -48,12 +48,16 @@ export default function signup() {
             setSuccess("")
             setGlobalError("")
             await signupSchema.validate(formData, {abortEarly: false})
-            const response = await fetch('http://10.0.2.2:8080/api/register', {
+            const response = await fetch('http://10.0.2.2:8080/api/user/register', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify({
+                    username: formData.username,
+                    password: formData.password,
+                    email: formData.email
+                })
             })
             if (!response.ok) {
                 const errorData = await response.json()

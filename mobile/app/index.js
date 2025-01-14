@@ -23,7 +23,14 @@ export default function App() {
 
 
     return (
+
         <View className={`flex-1 items-center justify-center p-5 ${theme === 'dark' ? "bg-darkBgPrimary" : "bg-white"}`}>
+
+            <StatusBar
+                style={theme === 'dark' ? 'light' : 'dark'}
+                backgroundColor={theme === 'dark' ? '#121212' : '#FFFFFF'}
+            />
+
             <ThemeSwitch />
             <Image
                 source={require('../assets/images/papuga.png')}
@@ -42,8 +49,6 @@ export default function App() {
                 className={`border-custom-1 border-bgPrimary ${theme === 'dark' ? "bg-darkBgPrimary" : 'bg-white'}`}
                 textClassName="text-textPrimary"
                 text="Sign Up" />
-            <StatusBar style="auto"
-            />
         </View>
     );
 }

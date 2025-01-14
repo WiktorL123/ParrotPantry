@@ -4,8 +4,11 @@ import com.parrot.pantry.parrotpantry.user.User;
 import com.parrot.pantry.parrotpantry.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
@@ -23,12 +26,16 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody User user) {
+    public ResponseEntity<?> register(@RequestBody User user) {
         try {
             userService.registerUser(user);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Użytkownik zarejestrowany pomyślnie!");
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(
+                    Map.of("message", "Użytkownik zarejestrowany pomyślnie!", "username", user.getUsername())
+            );
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", e.getMessage()));
         }
     }
 

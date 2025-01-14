@@ -1,5 +1,6 @@
 import {Stack} from "expo-router";
 import {useTheme} from "../../context/ThemeContext";
+import BackButton from "../../components/BackButton";
 
 
 export default function AuthLayout() {
@@ -8,6 +9,7 @@ export default function AuthLayout() {
     return (
         <Stack>
             <Stack.Screen name="login" options={{
+                headerLeft: ()=><BackButton/>,
                 headerTitle: "",
                 headerTintColor: "#5125BF",
                 headerStyle: {
@@ -16,6 +18,7 @@ export default function AuthLayout() {
                 headerShadowVisible: false
             }} />
             <Stack.Screen name="forgot-password" options={{
+                headerLeft: ()=><BackButton/>,
                 headerTitle: "",
                 headerTintColor: "#5125BF",
                 headerStyle: {
@@ -24,6 +27,7 @@ export default function AuthLayout() {
                 headerShadowVisible: false
             }} />
             <Stack.Screen name="signup" options={{
+                headerLeft: ()=><BackButton/>,
                 headerTitle: "",
                 headerTintColor: "#5125BF",
                 headerStyle: {

@@ -1,6 +1,7 @@
 package com.parrot.pantry.parrotpantry.user;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.parrot.pantry.parrotpantry.parrot.Parrot;
 import jakarta.persistence.*;
 
@@ -25,8 +26,10 @@ public class User {
     @Column(name = "email", unique = true)
     private String email;
     @Column(name = "created_at", updatable = false)
+    @JsonProperty("createdAt")
     private LocalDate created_at;
     @Column(name = "is_admin", nullable = false)
+    @JsonProperty("isAdmin")
     private Boolean is_admin = false;
 
     public User() {

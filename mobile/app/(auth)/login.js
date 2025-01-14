@@ -9,8 +9,6 @@ import {useTheme} from "../../context/ThemeContext";
 export default function login() {
     const router = useRouter();
     const { theme } = useTheme();
-    console.log("Current theme in login.js:", theme);
-
 
     return (
         <View className={` h-screen ${theme === 'dark' ? 'bg-darkBgPrimary' : 'bg-white'}`}>
@@ -22,6 +20,7 @@ export default function login() {
                 <CustomTextInput placeholder="Password"/>
                 <Text className="font-medium text-xs text-textSecondary ml-60 py-4" onPress={() => router.push('/forgot-password')}>Forgot password?</Text>
                 <Button
+                    onPress={() => router.push("/home")}
                     text="Log In"
                     className="bg-bgPrimary my-12"
                     textClassName="text-white"

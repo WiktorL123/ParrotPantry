@@ -2,7 +2,10 @@ import {Slot, Stack} from 'expo-router'
 import "../global.css";
 import ThemeProvider from "../context/ThemeContext";
 
+
+
 const RootLayout = () => {
+
     return (
         <ThemeProvider>
             <Stack>

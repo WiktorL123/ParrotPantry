@@ -7,6 +7,7 @@ import Button from "../../components/Button";
 import * as Yup from "yup";
 import {useState} from "react";
 import Toast from "react-native-toast-message";
+//komentarz
 const signupSchema = Yup.object().shape({
     firstName: Yup.string().required('First name is required'),
     lastName: Yup.string().required('Last name is required'),

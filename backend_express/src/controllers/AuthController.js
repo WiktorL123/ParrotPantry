@@ -30,6 +30,7 @@ const loginUser = async (req, res) => {
             firstName: user.firstName,
             lastName: user.lastName,
             userId: user._id,
+            profileBackgroundColor: user.profileBackgroundColor,
         });
     }
     catch (error) {

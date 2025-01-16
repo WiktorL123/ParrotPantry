@@ -13,7 +13,7 @@ export const UserProvider = ({ children }) => {
 
         console.log("Saving user data:", userData);
         console.log(`imie: ${userData.firstName} nazwisko: ${userData.lastName}`);
-        const {authToken, email, userId, firstName, lastName} = userData
+        const {authToken, email, userId, firstName, lastName, userColor} = userData
         try {
             await AsyncStorage.multiSet([
                 ["authToken", authToken],
@@ -21,6 +21,7 @@ export const UserProvider = ({ children }) => {
                 ["userId", userId],
                 ["firstName", firstName],
                 ["lastName", lastName],
+                ["userColor", userColor]
             ])
             setUser(userData);
         }
@@ -36,6 +37,8 @@ export const UserProvider = ({ children }) => {
                 "userId",
                 "firstName",
                 "lastName",
+                "userColor",
+
             ]);
             console.log("values in storage:", values);
             const userData = Object.fromEntries(values);

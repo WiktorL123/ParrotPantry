@@ -18,7 +18,9 @@ import {useUser} from "../../../context/UserContext";
             {user?(
                 <View>
                     <Text>Welcome {`${user.firstName} ${user.lastName}`}</Text>
-
+                    <View className={'rounded-full'} style={{backgroundColor: user.userColor}}>
+                        <Text>{user.email}</Text>
+                    </View>
                 </View>
             ):<Text>no data</Text>}
         </View>

@@ -8,7 +8,7 @@ import {useTheme} from "../../context/ThemeContext";
 import Button from "../../components/Button";
 import * as Yup from "yup";
 import {useState} from "react";
-import Toast from "react-native-toast-message";
+import {ColorPicker} from "../../components/ColorPicker";
 
 const signupSchema = Yup.object().shape({
     firstName: Yup.string().required('First name is required'),
@@ -36,6 +36,7 @@ export default function signup() {
         email: "",
         password: "",
         confirmPassword: "",
+        selectedColor: ""
     })
     const [errors, setErrors] = useState({})
     const [success, setSuccess] = useState("")
@@ -63,6 +64,8 @@ export default function signup() {
                     username: formData.username,
                     email: formData.email,
                     password: formData.password,
+                    profileBackgroundColor: formData.selectedColor
+
                 })
             })
             if (!response.ok) {
@@ -99,6 +102,10 @@ export default function signup() {
             </View>
             <View className="flex justify-center items-center">
                 <AddPhotoButton className="bg-placeholder" textClassName="text-white" />
+                <ColorPicker
+                    selectedColor={formData.selectedColor}
+                    onSelect={(color) => {handleChange("selectedColor", color)}}
+                />
                 <CustomTextInput
                     placeholder="First Name"
                     value={formData.firstName}

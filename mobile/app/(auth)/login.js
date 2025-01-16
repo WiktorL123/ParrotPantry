@@ -83,6 +83,7 @@ export default function login() {
                     userId:data.userId,
                     firstName:data.firstName,
                     lastName:data.lastName,
+                    userColor: data.profileBackgroundColor
                 })
             setTimeout(()=>{
                 router.push("/home");

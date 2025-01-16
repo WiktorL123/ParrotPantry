@@ -75,9 +75,10 @@ export default function login() {
             setData(data)
             console.log(data.token)
             setSuccess(`logged in successfully, welcome ${formData.email}.`);
+            console.log('data before saving: ', data)
             await saveUserData(
                 {
-                    token:data.token,
+                    authToken:data.token,
                     email:data.email,
                     userId:data.userId,
                     firstName:data.firstName,

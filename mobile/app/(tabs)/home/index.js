@@ -1,7 +1,5 @@
 import { View, Text } from "react-native";
 import { useState, useEffect } from "react";
-import { useRouter } from "expo-router";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useUser} from "../../../context/UserContext";
 
     export default function Home() {

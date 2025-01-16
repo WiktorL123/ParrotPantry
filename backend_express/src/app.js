@@ -1,10 +1,10 @@
 const express = require('express');
-const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const connectDB = require('./config/db')
 const AuthRoutes = require('./routes/AuthRoutes');
 const UserRoutes = require('./routes/UsersRoutes');
+const ParrotsRoutes = require('./routes/ParrotsRoutes');
 const app = express();
 const port = 5000
 
@@ -16,6 +16,7 @@ app.use(helmet({
 
 app.use('/auth', AuthRoutes);
 app.use('/users', UserRoutes);
+app.use('/api/parrots', ParrotsRoutes)
 
 connectDB()
 

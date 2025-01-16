@@ -40,7 +40,7 @@ const feedingNotificationSchema = new mongoose.Schema({
         enum: ['pending', 'completed', 'cancelled'],
         default: 'pending'
     }
-});
+}, {versionKey: false});
 
 
 const feedingNotification = mongoose.model('FeedingNotification', feedingNotificationSchema);

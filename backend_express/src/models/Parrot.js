@@ -12,11 +12,12 @@ const weightRecordSchema = new mongoose.Schema({
         min: 100,
         max: 1000
     }
-});
+}, {versionKey: false});
 
 const parrotSchema = new mongoose.Schema({
     ownerId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     },
     name: {
@@ -66,7 +67,7 @@ const parrotSchema = new mongoose.Schema({
         type: Date,
         default: null
     }
-});
+}, {versionKey: false});
 
 const parrot = mongoose.model('Parrot', parrotSchema);
 

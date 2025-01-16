@@ -31,7 +31,7 @@ const shopSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-});
+}, {versionKey: false});
 
 
 const shop = mongoose.model('Shop', shopSchema);

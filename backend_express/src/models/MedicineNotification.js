@@ -40,7 +40,7 @@ const medicineNotificationSchema = new mongoose.Schema({
         enum: ['pending', 'completed', 'cancelled'],
         default: 'pending'
     }
-});
+}, {versionKey: false});
 
 
 const medicineNotification = mongoose.model('MedicineNotification', medicineNotificationSchema);

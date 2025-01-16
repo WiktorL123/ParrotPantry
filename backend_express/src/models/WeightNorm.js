@@ -13,7 +13,7 @@ const weeklyWeightNormSchema = new mongoose.Schema({
         min: 100,
         max: 1000
     }
-});
+}, {versionKey: false});
 
 const weightNormSchema = new mongoose.Schema({
     species: {
@@ -30,7 +30,7 @@ const weightNormSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-});
+}, {versionKey: false});
 
 
 const weightNorm = mongoose.model('WeightNorm', weightNormSchema);

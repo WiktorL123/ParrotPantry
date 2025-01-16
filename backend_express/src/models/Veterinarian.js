@@ -44,7 +44,7 @@ const veterinarianSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-});
+}, {versionKey: false});
 
 
 const veterinarian = mongoose.model('Veterinarian', veterinarianSchema);

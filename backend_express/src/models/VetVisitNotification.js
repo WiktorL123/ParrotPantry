@@ -30,7 +30,7 @@ const vetVisitNotificationSchema = new mongoose.Schema({
         enum: ['upcoming', 'completed', 'cancelled'],
         default: 'upcoming'
     }
-});
+}, {versionKey: false});
 
 
 const vetVisitNotification =  mongoose.model('VetVisitNotification', vetVisitNotificationSchema);

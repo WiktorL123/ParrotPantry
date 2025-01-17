@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "react-native-dotenv": "^3.4.11"
+  },
+  "devDependencies": {
+    "metro-react-native-babel-preset": "^0.77.0"
+  }
+}

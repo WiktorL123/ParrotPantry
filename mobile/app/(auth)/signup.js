@@ -2,7 +2,7 @@
 import {ScrollView, Text, View} from "react-native";
 
 import Header from "../../components/Heading"
-import AddPhotoButton from "../../components/AddPhotoButton";
+import AddColorButton from "../../components/AddColorButton";
 import CustomTextInput from "../../components/CustomTextInput";
 import {useTheme} from "../../context/ThemeContext";
 import Button from "../../components/Button";
@@ -41,9 +41,12 @@ export default function signup() {
     const [errors, setErrors] = useState({})
     const [success, setSuccess] = useState("")
     const [globalError, setGlobalError] = useState("")
-
+    const [showColorPicker, setShowColorPicker] = useState(false)
     const handleChange = (field, value) => {
         setFormData({...formData, [field]: value})
+    }
+    const handleChangeColor = () =>{
+        setShowColorPicker((prev) => !prev)
     }
 
     const handleSubmit = async () => {
@@ -101,11 +104,20 @@ export default function signup() {
                 <Header className="ml-10 py-4" text="Create new account" />
             </View>
             <View className="flex justify-center items-center">
-                <AddPhotoButton className="bg-placeholder" textClassName="text-white" />
-                <ColorPicker
+                <AddColorButton
+                    className="bg-placeholder"
+                    textClassName="text-white"
+                    color={formData.selectedColor}
+                    onPress={()=>handleChangeColor()}/>
+                {showColorPicker && (
+                    <ColorPicker
                     selectedColor={formData.selectedColor}
-                    onSelect={(color) => {handleChange("selectedColor", color)}}
-                />
+                    onSelect={(color)=>{
+                        handleChange('selectedColor', color)
+                        setShowColorPicker(false)
+                    }}
+                    />
+                )}
                 <CustomTextInput
                     placeholder="First Name"
                     value={formData.firstName}

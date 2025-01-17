@@ -56,7 +56,7 @@ export default function signup() {
             setGlobalError("")
             await signupSchema.validate(formData, {abortEarly: false})
             console.log(JSON.stringify(formData))
-            const response = await fetch('http://10.0.2.2:5000/users/register', {
+            const response = await fetch('http://localhost:3000/users/register', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",

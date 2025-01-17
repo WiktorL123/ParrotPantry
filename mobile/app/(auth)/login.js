@@ -17,7 +17,7 @@ const loginSchema = Yup.object().shape({
 
 
 })
-
+//kom
 export default function login() {
     const {saveUserData} = useUser()
     const router = useRouter();
@@ -54,7 +54,7 @@ export default function login() {
             setGlobalError("");
             await loginSchema.validate(formData, {abortEarly: false});
 
-            const response = await fetch("http://10.0.2.2:5000/auth/login", {
+            const response = await fetch("http://localhost:3000/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -83,6 +83,7 @@ export default function login() {
                     userId:data.userId,
                     firstName:data.firstName,
                     lastName:data.lastName,
+                    userColor: data.profileBackgroundColor
                 })
             setTimeout(()=>{
                 router.push("/home");

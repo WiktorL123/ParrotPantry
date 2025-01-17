@@ -2,13 +2,13 @@
 import {ScrollView, Text, View} from "react-native";
 
 import Header from "../../components/Heading"
-import AddPhotoButton from "../../components/AddPhotoButton";
+import AddColorButton from "../../components/AddColorButton";
 import CustomTextInput from "../../components/CustomTextInput";
 import {useTheme} from "../../context/ThemeContext";
 import Button from "../../components/Button";
 import * as Yup from "yup";
 import {useState} from "react";
-import Toast from "react-native-toast-message";
+import {ColorPicker} from "../../components/ColorPicker";
 
 const signupSchema = Yup.object().shape({
     firstName: Yup.string().required('First name is required'),
@@ -36,13 +36,17 @@ export default function signup() {
         email: "",
         password: "",
         confirmPassword: "",
+        selectedColor: ""
     })
     const [errors, setErrors] = useState({})
     const [success, setSuccess] = useState("")
     const [globalError, setGlobalError] = useState("")
-
+    const [showColorPicker, setShowColorPicker] = useState(false)
     const handleChange = (field, value) => {
         setFormData({...formData, [field]: value})
+    }
+    const handleChangeColor = () =>{
+        setShowColorPicker((prev) => !prev)
     }
 
     const handleSubmit = async () => {
@@ -52,7 +56,7 @@ export default function signup() {
             setGlobalError("")
             await signupSchema.validate(formData, {abortEarly: false})
             console.log(JSON.stringify(formData))
-            const response = await fetch('http://10.0.2.2:5000/users/register', {
+            const response = await fetch('http://localhost:3000/users/register', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
@@ -63,6 +67,8 @@ export default function signup() {
                     username: formData.username,
                     email: formData.email,
                     password: formData.password,
+                    profileBackgroundColor: formData.selectedColor
+
                 })
             })
             if (!response.ok) {
@@ -98,7 +104,20 @@ export default function signup() {
                 <Header className="ml-10 py-4" text="Create new account" />
             </View>
             <View className="flex justify-center items-center">
-                <AddPhotoButton className="bg-placeholder" textClassName="text-white" />
+                <AddColorButton
+                    className="bg-placeholder"
+                    textClassName="text-white"
+                    color={formData.selectedColor}
+                    onPress={()=>handleChangeColor()}/>
+                {showColorPicker && (
+                    <ColorPicker
+                    selectedColor={formData.selectedColor}
+                    onSelect={(color)=>{
+                        handleChange('selectedColor', color)
+                        setShowColorPicker(false)
+                    }}
+                    />
+                )}
                 <CustomTextInput
                     placeholder="First Name"
                     value={formData.firstName}

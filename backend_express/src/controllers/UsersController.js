@@ -4,7 +4,8 @@ const User = require('../models/User');
 
 const registerUser = async (req, res) => {
     try {
-        const {firstName, lastName, username, email, password} = req.body;
+        const {firstName, lastName, username, email, password, profileBackgroundColor} = req.body;
+
 
         if(!firstName || !lastName || !username || !email || !password || !password.trim()){
             return res.status(400).json({error: 'All fields are required'});
@@ -16,7 +17,14 @@ const registerUser = async (req, res) => {
             return res.status(400).json({error: 'User already exists'});
         }
 
-        const newUser = new User({firstName, lastName, username, email, password})
+        const newUser = new User({
+            firstName,
+            lastName,
+            username,
+            email,
+            password,
+            profileBackgroundColor
+        })
 
         await newUser.save();
 

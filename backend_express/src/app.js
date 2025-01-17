@@ -6,7 +6,7 @@ const AuthRoutes = require('./routes/AuthRoutes');
 const UserRoutes = require('./routes/UsersRoutes');
 const ParrotsRoutes = require('./routes/ParrotsRoutes');
 const app = express();
-const port = 5000
+const port = 3000
 
 app.use(cors());
 app.use(express.json())

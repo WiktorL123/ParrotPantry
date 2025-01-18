@@ -6,7 +6,7 @@ import UserColorModal from "./UserColorModal";
 export default function UserWelcome({firstName, lastName, bgColor}) {
     return (
         <View
-        className={'w-full d-flex flex-row mt-3 justify-around'}>
+        className={'flex flex-row mt-3 mx-6 justify-between'}>
             <View >
                 <Text className={'color-textGray'}>
                     Welcome

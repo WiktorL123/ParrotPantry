@@ -4,9 +4,14 @@ import Medicine from "./medicine"
 import Feeding from "./feeding"
 import Weighting from "./weighting"
 import VetVisit from "./vet-visit"
+import {useTheme} from "../../../context/ThemeContext";
 
 export default function Notifications() {
     const [activeTab, setActiveTab] = useState("Medicine");
+
+    const {theme} = useTheme();
+
+
 
     const tabs = [
         { name: "Medicine", component: Medicine },
@@ -18,19 +23,19 @@ export default function Notifications() {
     const ActiveComponent = tabs.find(tab => tab.name === activeTab)?.component;
 
     return (
-        <View className="flex-1 bg-gray-100">
+        <View className={`${theme==='dark' ? 'bg-darkBgPrimary' :'bg-white'} h-screen flex-1 pt-8`}>
             <View className="h-16">
                 <ScrollView
                     horizontal
                     showsHorizontalScrollIndicator={false}
-                    className="bg-white px-2"
+                    className={`${theme==='dark' ? 'bg-darkBgPrimary' :'bg-white'} h-screen px-2`}
                 >
                     {tabs.map((tab, index) => (
                         <TouchableOpacity
                             key={index}
                             onPress={() => setActiveTab(tab.name)}
                             className={`mr-2 px-10 py-2 rounded-full h-10 mt-3 ${
-                                activeTab === tab.name ? "bg-blue-500" : "bg-gray-200"
+                                activeTab === tab.name ? "bg-bgPrimary" : "bg-gray-200"
                             }`}
                         >
                             <Text

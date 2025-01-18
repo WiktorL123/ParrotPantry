@@ -1,17 +1,22 @@
-import { Tabs } from "expo-router";
+import {Stack, Tabs} from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import {useTheme} from "../../context/ThemeContext";
 
 export default function TabsLayout() {
+
+    const {theme} = useTheme();
+
     return (
         <Tabs screenOptions={{
             tabBarStyle: {
-                paddingTop: 10,
+                paddingTop: 0,
+                backgroundColor: theme === 'dark' ? '#121212' : '#FFFFFF',
             },
             tabBarLabelStyle: {
                 fontSize: 12,
                 fontWeight: "bold",
             },
-            tabBarActiveTintColor: `#481196`
+            tabBarActiveTintColor: `#481196`,
         }}>
             <Tabs.Screen
                 name="home"
@@ -37,6 +42,7 @@ export default function TabsLayout() {
                 name="statistics"
                 options={{
                     title: "Statistics",
+                    headerShown: false,
                     tabBarIcon: ({ color, size }) => (
                         <Ionicons name="stats-chart-outline" color={color} size={size} />
                     )

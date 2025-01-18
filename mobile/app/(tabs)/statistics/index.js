@@ -2,13 +2,13 @@ import {View, Text} from "react-native";
 import {useTheme} from "../../../context/ThemeContext";
 
 
-export default function EditParrot() {
+export default function Statistics() {
 
     const {theme} = useTheme();
 
     return (
-        <View className={`${theme==='dark' ? 'bg-darkBgPrimary' :'bg-white'} h-screen`}>
-            <Text>Edit Parrot</Text>
+        <View className={`${theme==='dark' ? 'bg-darkBgPrimary' :'bg-white'} h-screen pt-8`}>
+            <Text>Statistics</Text>
         </View>
     )
 }

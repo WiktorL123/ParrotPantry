@@ -29,6 +29,30 @@ export const UserProvider = ({ children }) => {
             console.log(error);
         }
     }
+    ///^ load data after login
+
+
+    const saveUserDataOffline = async () =>{
+
+
+
+        try {
+            await AsyncStorage.multiSet([
+                ["authToken", "token"],
+                ["email", "lewy@wwp.pl"],
+                ["userId", "678a795b22f52422ab58e938"],
+                ["firstName", "robert"],
+                ["lastName", "Lewandowski"],
+                ["userColor", "#8a0d88"]
+            ])
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+
+
     const loadUserData = async () => {
         try {
             const values = await AsyncStorage.multiGet([
@@ -63,6 +87,7 @@ export const UserProvider = ({ children }) => {
             loading,
             saveUserData,
             loadUserData,
+            saveUserDataOffline
         }}>
             {children}
         </UserContext.Provider>

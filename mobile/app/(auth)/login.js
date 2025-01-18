@@ -19,7 +19,7 @@ const loginSchema = Yup.object().shape({
 })
 //kom
 export default function login() {
-    const {saveUserData} = useUser()
+    const {saveUserData, saveUserDataOffline} = useUser()
     const router = useRouter();
     const { theme } = useTheme();
     const [formData, setFormData] = useState({
@@ -36,45 +36,50 @@ export default function login() {
     }
 
     const handleSubmit = async () => {
-        try {
-            setErrors({});
-            setSuccess("");
-            setGlobalError("");
-            await loginSchema.validate(formData, {abortEarly: false});
+         try {
+        //     setErrors({});
+        //     setSuccess("");
+        //     setGlobalError("");
+        //     await loginSchema.validate(formData, {abortEarly: false});
+        //
+        //     const response = await fetch("http://localhost:3000/auth/login", {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify({
+        //             email: formData.email,
+        //             password: formData.password,
+        //         })
+        //     })
+        //
+        //     if (!response.ok) {
+        //         const errorData = await response.json()
+        //         setGlobalError(errorData.message);
+        //         throw new Error(errorData.message);
+        //     }
+        //     const data = await response.json();
+        //     setData(data)
+        //     console.log(data.token)
+        //     setSuccess(`logged in successfully, welcome ${formData.email}.`);
+        //     console.log('data before saving: ', data)
+        //     await saveUserData(
+        //         {
+        //             authToken:data.token,
+        //             email:data.email,
+        //             userId:data.userId,
+        //             firstName:data.firstName,
+        //             lastName:data.lastName,
+        //             userColor: data.profileBackgroundColor
+        //         })
 
-            const response = await fetch("http://localhost:3000/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email: formData.email,
-                    password: formData.password,
-                })
-            })
+         //^logic of validation and sending data to backend - ENABLE LATER!!!
 
-            if (!response.ok) {
-                const errorData = await response.json()
-                setGlobalError(errorData.message);
-                throw new Error(errorData.message);
-            }
-            const data = await response.json();
-            setData(data)
-            console.log(data.token)
-            setSuccess(`logged in successfully, welcome ${formData.email}.`);
-            console.log('data before saving: ', data)
-            await saveUserData(
-                {
-                    authToken:data.token,
-                    email:data.email,
-                    userId:data.userId,
-                    firstName:data.firstName,
-                    lastName:data.lastName,
-                    userColor: data.profileBackgroundColor
-                })
-            setTimeout(()=>{
-                router.push("/home");
-            }, 2500)
+            await saveUserDataOffline()
+            router.push("/home")
+            // setTimeout(()=>{
+            //     router.push("/home");
+            // }, 2500)
 
         }
         catch(error) {

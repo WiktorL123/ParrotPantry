@@ -48,7 +48,7 @@ const userSchema = new mongoose.Schema({
     },
     profileBackgroundColor: {
         type: String,
-        default: '#121212',
+        default: '#CCCCCC',
     }
 }, {versionKey: false});
 

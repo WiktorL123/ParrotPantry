@@ -28,7 +28,11 @@ import {useTheme} from "../../../context/ThemeContext";
                   <UserWelcome
                   firstName={user.firstName}
                   lastName={user.lastName}
-                  bgColor={user.userColor || theme==='dark' ? '#FFFFFF' : "#121212"}
+                  bgColor={user.userColor || '#CCCCCC'}
+                  text={`${user.firstName[0].toUpperCase()} ${user.lastName[0].toUpperCase()}`}
+                  textClassName="text-white text-base"
+                  className="w-9 h-9 my-1.5"
+                  onPress={() => {router.push('/profile')}}
                   />
               ) :(
                   <Text>loading...</Text>

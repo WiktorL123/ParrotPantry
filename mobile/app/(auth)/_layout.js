@@ -22,7 +22,7 @@ export default function AuthLayout() {
                 headerTitle: "",
                 headerTintColor: "#5125BF",
                 headerStyle: {
-                    backgroundColor: theme === 'darkfo oprocz tegot' ? '#121212' : '#FFFFFF'
+                    backgroundColor: theme === 'dark' ? '#121212' : '#FFFFFF'
                 },
                 headerShadowVisible: false
             }} />

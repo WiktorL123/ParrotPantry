@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
 const connectDB = require('./config/db')
@@ -16,6 +17,7 @@ app.use(express.json())
 app.use(helmet({
     hsts: false,
 }))
+app.use('/public', express.static(path.join(__dirname, '..', 'public')));
 
 app.use('/auth', AuthRoutes);
 app.use('/users', UserRoutes);

@@ -1,15 +1,22 @@
-import {View, Text, ScrollView} from "react-native";
-import { useState, useEffect } from "react";
-import {useRouter} from "expo-router";
-import {useUser} from "../../../context/UserContext";
-import Header from "../../../components/Heading";
+import {View, Text, ScrollView, SafeAreaView, StatusBar, Platform} from "react-native";
+import { useEffect } from "react";
+import { useRouter} from "expo-router";
+import { useUser} from "../../../context/UserContext";
 import UserWelcome from "../../../components/UserWelcome";
 import Button from "../../../components/Button";
 import {useTheme} from "../../../context/ThemeContext";
+import DashboardSectionTitle from "../../../components/DashboardSectionTitle";
+import DashboardModal from "../../../components/DashboardModal";
 
 
     export default function Home() {
     const {user, loadUserData} = useUser();
+    const  shop = {
+                        name: 'shop1',
+                        url:  'https://www.zooplus.pl/checkout/login?notLoggedIn=true',
+                        logo: require('../../../assets/icon.png'),
+                        description: 'description'
+                        }
 
     const {theme} = useTheme()
 
@@ -21,9 +28,18 @@ import {useTheme} from "../../../context/ThemeContext";
     }, []);
 
     return (
+
+        <SafeAreaView
+            className={`${theme==='dark' ? 'bg-darkBgPrimary' :'bg-white'} flex-1`}
+            style={{
+                flex: 1,
+                paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+                      }}
+        >
+
           <ScrollView
               automaticallyAdjustContentInsets={false}
-              style={{backgroundColor: theme === 'dark' ? '#121212' :'#FFFFFF', minHeight: '100%', paddingTop: 32}} >
+          >
               {user ? (
                   <UserWelcome
                   firstName={user.firstName}
@@ -31,7 +47,7 @@ import {useTheme} from "../../../context/ThemeContext";
                   bgColor={user.userColor || '#CCCCCC'}
                   text={`${user.firstName[0].toUpperCase()} ${user.lastName[0].toUpperCase()}`}
                   textClassName="text-white text-base"
-                  className="w-9 h-9 my-1.5"
+                  className="w-9 h-9 my-0.5"
                   onPress={() => {router.push('/profile')}}
                   />
               ) :(
@@ -43,6 +59,28 @@ import {useTheme} from "../../../context/ThemeContext";
                   <Button className="bg-bgPrimary" textClassName="text-white" text="Edit parrot" onPress={() => router.push('/home/editParrot')}/>
               </View>
 
+              <View >
+                  <DashboardSectionTitle text={'Popular Pet Stores'}/>
+                  <ScrollView
+                  horizontal={true}
+                  >
+                    <DashboardModal
+                        shop={shop}
+
+                    />
+
+                      <DashboardModal
+                          shop={shop}
+
+                      />
+
+
+
+                  </ScrollView>
+
+              </View>
+
           </ScrollView>
+            </SafeAreaView>
     );
 }

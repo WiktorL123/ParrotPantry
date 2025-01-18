@@ -9,6 +9,7 @@ import Button from "../../components/Button";
 import * as Yup from "yup";
 import {useState} from "react";
 import {ColorPicker} from "../../components/ColorPicker";
+import {useRouter} from "expo-router";
 
 const signupSchema = Yup.object().shape({
     firstName: Yup.string().required('First name is required'),
@@ -45,6 +46,7 @@ export default function signup() {
     const handleChange = (field, value) => {
         setFormData({...formData, [field]: value})
     }
+    const router = useRouter();
     const handleChangeColor = () =>{
         setShowColorPicker((prev) => !prev)
     }
@@ -79,6 +81,7 @@ export default function signup() {
                 setSuccess(`success, welcome, ${formData.username}`)
             console.log(success)
             console.log(formData)
+            setTimeout(()=>router.push('/login'), 2000)
         }
         catch (err) {
             if (err.name==="ValidationError") {

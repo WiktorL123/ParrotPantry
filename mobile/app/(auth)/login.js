@@ -34,19 +34,7 @@ export default function login() {
     const handleChange = (field, value) => {
         setFormData({...formData, [field]: value});
     }
-    // const saveUserDataInAsyncStorage =async (token, email, id) => {
-    //     try {
-    //         await AsyncStorage.multiSet([
-    //             ["authToken", token],
-    //             ["email", email],
-    //             ["userId", id],
-    //             ]
-    //         )
-    //     }
-    //     catch (error) {
-    //         console.log("error saving data:", error);
-    //     }
-    // }
+
     const handleSubmit = async () => {
         try {
             setErrors({});
@@ -64,12 +52,11 @@ export default function login() {
                     password: formData.password,
                 })
             })
+
             if (!response.ok) {
                 const errorData = await response.json()
-                console.log(errorData)
                 setGlobalError(errorData.message);
                 throw new Error(errorData.message);
-
             }
             const data = await response.json();
             setData(data)
@@ -133,18 +120,12 @@ export default function login() {
                 )}
                 <Text className="font-medium text-xs text-textSecondary ml-60 py-4" onPress={() => router.push('/forgot-password')}>Forgot password?</Text>
                 <Button
-                    // onPress={() => router.push("/home")}
                     text="Log In"
                     className="bg-bgPrimary my-12"
                     textClassName="text-white"
                     onPress={handleSubmit}
                 />
-                {/*<Text className="text-textGray my-8">OR</Text>*/}
-                {/*<Button*/}
-                {/*    text="Login With Facebook"*/}
-                {/*    className="bg-bgSecondary my-12"*/}
-                {/*    textClassName="text-white"*/}
-                {/*/>*/}
+
                 {success && (<Text className={"text-green-500 text-sm mt-1"}>{success}</Text>)}
                 {globalError && (<Text className={"text-red-500 text-sm mt-1"}>{globalError}</Text>)}
 

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const hashPassword = require('../middlewares/hashPassword')
+const {token} = require("morgan");
 
 const userSchema = new mongoose.Schema({
     firstName: {

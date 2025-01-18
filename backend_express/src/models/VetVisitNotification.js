@@ -33,7 +33,7 @@ const vetVisitNotificationSchema = new mongoose.Schema({
 }, {versionKey: false});
 
 
-const vetVisitNotification =  mongoose.model('VetVisitNotification', vetVisitNotificationSchema);
+const vetVisitNotification =  mongoose.model('VetVisitNotification', vetVisitNotificationSchema, 'vetVisitNotifications');
 
 
 module.exports = vetVisitNotification;

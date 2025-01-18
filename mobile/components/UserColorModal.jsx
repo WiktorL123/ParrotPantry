@@ -7,7 +7,7 @@ export default function UserColorModal({ color, firstName }) {
             style={{ backgroundColor: color }}
         >
             <Text className="text-white text-lg font-bold">
-                {firstName ? firstName[0] : "taki chuj"}
+                {firstName ? firstName[0] : ""}
             </Text>
         </View>
     );

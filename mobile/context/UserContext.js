@@ -9,6 +9,11 @@ export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true);
 
+    function capitalize(word) {
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }
+
+
     const saveUserData = async (userData) => {
 
         console.log("Saving user data:", userData);
@@ -19,8 +24,8 @@ export const UserProvider = ({ children }) => {
                 ["authToken", authToken],
                 ["email", email],
                 ["userId", userId],
-                ["firstName", firstName],
-                ["lastName", lastName],
+                ["firstName", capitalize(firstName)],
+                ["lastName", capitalize(lastName)],
                 ["userColor", userColor]
             ])
             setUser(userData);
@@ -41,7 +46,7 @@ export const UserProvider = ({ children }) => {
                 ["authToken", "token"],
                 ["email", "lewy@wwp.pl"],
                 ["userId", "678a795b22f52422ab58e938"],
-                ["firstName", "robert"],
+                ["firstName", "Robert"],
                 ["lastName", "Lewandowski"],
                 ["userColor", "#8a0d88"]
             ])

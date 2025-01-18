@@ -111,7 +111,9 @@ export default function signup() {
                     className="bg-placeholder"
                     textClassName="text-white"
                     color={formData.selectedColor}
-                    onPress={()=>handleChangeColor()}/>
+                    onPress={()=>handleChangeColor()}
+                    text="+"
+                />
                 {showColorPicker && (
                     <ColorPicker
                     selectedColor={formData.selectedColor}

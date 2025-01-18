@@ -43,7 +43,7 @@ const medicineNotificationSchema = new mongoose.Schema({
 }, {versionKey: false});
 
 
-const medicineNotification = mongoose.model('MedicineNotification', medicineNotificationSchema);
+const medicineNotification = mongoose.model('MedicineNotification', medicineNotificationSchema, 'medicineNotifications');
 
 
 module.exports = medicineNotification;

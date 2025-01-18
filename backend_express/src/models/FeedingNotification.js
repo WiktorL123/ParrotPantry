@@ -43,7 +43,7 @@ const feedingNotificationSchema = new mongoose.Schema({
 }, {versionKey: false});
 
 
-const feedingNotification = mongoose.model('FeedingNotification', feedingNotificationSchema);
+const feedingNotification = mongoose.model('FeedingNotification', feedingNotificationSchema, 'feddingNotifications');
 
 
 module.exports = feedingNotification;

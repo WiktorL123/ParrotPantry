@@ -4,7 +4,7 @@ const weeklyWeightNormSchema = new mongoose.Schema({
     day: {
         type: String,
         required: true,
-        enum: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], // Dni tygodnia
+        enum: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
         trim: true
     },
     averageWeight: {
@@ -33,7 +33,7 @@ const weightNormSchema = new mongoose.Schema({
 }, {versionKey: false});
 
 
-const weightNorm = mongoose.model('WeightNorm', weightNormSchema);
+const weightNorm = mongoose.model('WeightNorm', weightNormSchema, 'weightNorms');
 
 
 module.exports = weightNorm;

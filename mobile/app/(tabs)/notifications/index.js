@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, ScrollView, TouchableOpacity, Text } from "react-native";
+import {View, ScrollView, TouchableOpacity, Text, Platform, StatusBar, SafeAreaView} from "react-native";
 import Medicine from "./medicine"
 import Feeding from "./feeding"
 import Weighting from "./weighting"
@@ -23,7 +23,13 @@ export default function Notifications() {
     const ActiveComponent = tabs.find(tab => tab.name === activeTab)?.component;
 
     return (
-        <View className={`${theme==='dark' ? 'bg-darkBgPrimary' :'bg-white'} h-screen flex-1 pt-8`}>
+        <SafeAreaView className={`${theme==='dark' ? 'bg-darkBgPrimary' :'bg-white'} flex-1`}
+            style={{
+                flex: 1,
+                paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+            }}
+        >
+        <View className={`h-screen flex-1`}>
             <View className="h-16">
                 <ScrollView
                     horizontal
@@ -54,5 +60,6 @@ export default function Notifications() {
                 {ActiveComponent && <ActiveComponent />}
             </View>
         </View>
+        </SafeAreaView>
     );
 }

@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity, Alert, Linking, Platform} from "react-native";
+import {View, Text, TouchableOpacity, Alert, Linking, Platform, SafeAreaView, StatusBar} from "react-native";
 import Switch from "../../../components/Switch"
 import Button from "../../../components/Button";
 import {useRouter} from "expo-router";
@@ -44,31 +44,38 @@ export default function UserProfile() {
     const router = useRouter();
 
     return (
-        <View className={`${theme==='dark' ? 'bg-darkBgPrimary' :'bg-white'} flex-1`}>
-            <View className="flex-row justify-between items-center pt-8 px-2 mb-4">
-                <Switch />
-                <TouchableOpacity onPress={() => router.push('/')}>
-                    <MaterialIcons name="logout" size={24} color="#8e8e93"/>
-                </TouchableOpacity>
-            </View>
-            <View className="flex items-center mt-12">
-                <AddColorButton
-                    className="bg-placeholder my-2"
-                    textClassName="text-white"
-                    text={`${user.firstName[0].toUpperCase()} ${user.lastName[0].toUpperCase()}`}
-                    color={user.userColor}
-                />
-                {user ?
-                    <>
-                        <Heading text={`${user.firstName} ${user.lastName} `} className="text-center py-4"/>
-                        <Text className="font-poppins-regular text-textGray text-base">{`${user.email}`}</Text>
-                    </> :
-                    <></>
-                }
+        <SafeAreaView className={`${theme==='dark' ? 'bg-darkBgPrimary' :'bg-white'} flex-1`}
+             style={{
+                flex: 1,
+                paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+        }}
+        >
+            <View className={`flex-1`}>
+                <View className="flex-row justify-between items-center px-2 mb-4">
+                    <Switch />
+                    <TouchableOpacity onPress={() => router.push('/')}>
+                        <MaterialIcons name="logout" size={24} color="#8e8e93"/>
+                    </TouchableOpacity>
+                </View>
+                <View className="flex items-center mt-12">
+                    <AddColorButton
+                        className="bg-placeholder my-2"
+                        textClassName="text-white"
+                        text={`${user.firstName[0].toUpperCase()} ${user.lastName[0].toUpperCase()}`}
+                        color={user.userColor}
+                    />
+                    {user ?
+                        <>
+                            <Heading text={`${user.firstName} ${user.lastName} `} className="text-center py-4"/>
+                            <Text className="font-poppins-regular text-textGray text-base">{`${user.email}`}</Text>
+                        </> :
+                        <></>
+                    }
 
-                <Button className="bg-bgPrimary my-8" textClassName="text-white" text="Edit Profile" onPress={() => router.push('/profile/editProfile')} />
-                <Button className="bg-bgPrimary my-8" textClassName="text-white" text="Rate Us" onPress={handlePress}/>
+                    <Button className="bg-bgPrimary my-8" textClassName="text-white" text="Edit Profile" onPress={() => router.push('/profile/editProfile')} />
+                    <Button className="bg-bgPrimary my-8" textClassName="text-white" text="Rate Us" onPress={handlePress}/>
+                </View>
             </View>
-        </View>
+        </SafeAreaView>
     )
 }

@@ -45,6 +45,10 @@ const userSchema = new mongoose.Schema({
     updatedAt: {
         type: Date,
         default: null
+    },
+    profileBackgroundColor: {
+        type: String,
+        default: '#CCCCCC',
     }
 }, {versionKey: false});
 

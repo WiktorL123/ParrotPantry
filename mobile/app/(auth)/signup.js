@@ -2,14 +2,15 @@
 import {ScrollView, Text, View} from "react-native";
 
 import Header from "../../components/Heading"
-import AddPhotoButton from "../../components/AddPhotoButton";
+import AddColorButton from "../../components/AddColorButton";
 import CustomTextInput from "../../components/CustomTextInput";
 import {useTheme} from "../../context/ThemeContext";
 import Button from "../../components/Button";
 import * as Yup from "yup";
 import {useState} from "react";
-import Toast from "react-native-toast-message";
-//komentarz
+import {ColorPicker} from "../../components/ColorPicker";
+import {useRouter} from "expo-router";
+
 const signupSchema = Yup.object().shape({
     firstName: Yup.string().required('First name is required'),
     lastName: Yup.string().required('Last name is required'),
@@ -36,13 +37,18 @@ export default function signup() {
         email: "",
         password: "",
         confirmPassword: "",
+        selectedColor: ""
     })
     const [errors, setErrors] = useState({})
     const [success, setSuccess] = useState("")
     const [globalError, setGlobalError] = useState("")
-
+    const [showColorPicker, setShowColorPicker] = useState(false)
     const handleChange = (field, value) => {
         setFormData({...formData, [field]: value})
+    }
+    const router = useRouter();
+    const handleChangeColor = () =>{
+        setShowColorPicker((prev) => !prev)
     }
 
     const handleSubmit = async () => {
@@ -51,15 +57,20 @@ export default function signup() {
             setSuccess("")
             setGlobalError("")
             await signupSchema.validate(formData, {abortEarly: false})
-            const response = await fetch('http://10.0.2.2:8080/api/user/register', {
+            console.log(JSON.stringify(formData))
+            const response = await fetch('http://localhost:3000/users/register', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
+                    firstName: formData.firstName,
+                    lastName: formData.lastName,
                     username: formData.username,
+                    email: formData.email,
                     password: formData.password,
-                    email: formData.email
+                    profileBackgroundColor: formData.selectedColor
+
                 })
             })
             if (!response.ok) {
@@ -67,10 +78,10 @@ export default function signup() {
                 console.log(errorData)
                 throw new Error(errorData.message || "Register failed.")
             }
-            const data = await response.json()
-            setSuccess(`succes, welcome, ${data.username}`)
+                setSuccess(`success, welcome, ${formData.username}`)
             console.log(success)
             console.log(formData)
+            setTimeout(()=>router.push('/login'), 2000)
         }
         catch (err) {
             if (err.name==="ValidationError") {
@@ -88,29 +99,30 @@ export default function signup() {
     }
 
     return (
-        <View className={`${theme==='dark' ? 'bg-darkBgPrimary' :'bg-white'} h-screen`}>
+        <ScrollView className={`${theme==='dark' ? 'bg-darkBgPrimary' :'bg-white'} h-screen`}>
 
-            <ScrollView>
-                <View>
-                    <Header className="ml-10 py-4" text="Create new account" />
-                </View>
-                <View className="flex justify-center items-center">
-                    <AddPhotoButton className="bg-placeholder" textClassName="text-white" />
-                    <CustomTextInput placeholder="First Name" />
-                    <CustomTextInput placeholder="Last Name" />
-                    <CustomTextInput placeholder="Username" />
-                    <CustomTextInput placeholder="E-mail Address" />
-                    <CustomTextInput placeholder="Password" />
-                    <CustomTextInput placeholder="Confirm Password" />
-                    <Button text="Sign Up" className='bg-bgPrimary my-16' textClassName="text-white"/>
-                </View>
-            </ScrollView>
+
 
             <View>
                 <Header className="ml-10 py-4" text="Create new account" />
             </View>
             <View className="flex justify-center items-center">
-                <AddPhotoButton className="bg-placeholder" textClassName="text-white" />
+                <AddColorButton
+                    className="bg-placeholder"
+                    textClassName="text-white"
+                    color={formData.selectedColor}
+                    onPress={()=>handleChangeColor()}
+                    text="+"
+                />
+                {showColorPicker && (
+                    <ColorPicker
+                    selectedColor={formData.selectedColor}
+                    onSelect={(color)=>{
+                        handleChange('selectedColor', color)
+                        setShowColorPicker(false)
+                    }}
+                    />
+                )}
                 <CustomTextInput
                     placeholder="First Name"
                     value={formData.firstName}
@@ -170,11 +182,15 @@ export default function signup() {
 
                 {errors.confirmPassword && (<Text className="text-red-500 text-sm mt-0.5">{errors.confirmPassword}</Text>)}
 
-                <Button text="Sign Up" className='bg-bgPrimary my-16' textClassName="text-white" onPress={handleSubmit}/>
+                <Button text="Sign Up"
+                        className='bg-bgPrimary my-16'
+                        textClassName="text-white"
+                        onPress={handleSubmit}
+                />
                 {success && (<Text className="text-green-500 text-sm mt-1">{success}</Text>)}
                 {globalError && (<Text className="text-red-600 text-lg mt-1">{globalError}</Text>)}
             </View>
 
-        </View>
+        </ScrollView>
     )
 }

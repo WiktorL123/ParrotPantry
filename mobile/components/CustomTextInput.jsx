@@ -1,20 +1,51 @@
-import React from "react";
-import { TextInput } from "react-native";
+import React, { useState } from "react";
+import { TextInput, TouchableOpacity, Text, Platform } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { useTheme } from "../context/ThemeContext";
 
-export default function CustomTextInput({ placeholder, value, onChange, secureTextEntry }) {
+export default function CustomTextInput({ placeholder, value, onChange, isDatePicker }) {
     const { theme } = useTheme();
+    const [isPickerVisible, setIsPickerVisible] = useState(false);
+
+    const textColor = theme === "dark" ? "text-white" : "text-black";
+    const bgColor = theme === "dark" ? "bg-darkBgPrimary" : "bg-white";
 
     return (
-        <TextInput
-            className={`w-[306px] h-[38px] rounded-3xl border border-gray-400 pl-4 my-4 font-medium ${
-                theme === "dark" ? "text-white" : "text-black"
-            }`}
-            placeholder={placeholder}
-            placeholderTextColor={theme === "dark" ? "#9E9E9E" : "#555555"}
-            value={value}
-            onChangeText={onChange}
-            secureTextEntry={secureTextEntry}
-        />
+        <>
+            {isDatePicker ? (
+                <>
+                    <TouchableOpacity
+                        onPress={() => setIsPickerVisible(true)}
+                        className={`w-[306px] h-[38px] rounded-3xl border border-gray-400 pl-4 my-4 font-medium justify-center ${bgColor}`}
+                    >
+                        <Text className={`${textColor}`}>
+                            {value ? value.toLocaleDateString() : placeholder}
+                        </Text>
+                    </TouchableOpacity>
+
+                    {isPickerVisible && (
+                        <DateTimePicker
+                            value={value || new Date()}
+                            mode="date"
+                            display={Platform.OS === "ios" ? "inline" : "default"}
+                            onChange={(event, selectedDate) => {
+                                setIsPickerVisible(false);
+                                if (selectedDate) {
+                                    onChange(selectedDate);
+                                }
+                            }}
+                        />
+                    )}
+                </>
+            ) : (
+                <TextInput
+                    className={`w-[306px] h-[38px] rounded-3xl border border-gray-400 pl-4 my-4 font-medium ${bgColor} ${textColor}`}
+                    placeholder={placeholder}
+                    placeholderTextColor={theme === "dark" ? "#9E9E9E" : "#555555"}
+                    value={value}
+                    onChangeText={onChange}
+                />
+            )}
+        </>
     );
 }

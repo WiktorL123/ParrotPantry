@@ -13,7 +13,12 @@ export default function UserWelcome({firstName, lastName, bgColor, className, te
                 </Text>
                <Heading text={`${firstName} ${lastName}`} />
             </View>
-            <AddColorButton color={bgColor} className={className} text={text} textClassName={textClassName} onPress={onPress} />
+            <AddColorButton
+                color={bgColor}
+                className={className}
+                text={text}
+                textClassName={textClassName}
+                onPress={onPress} />
         </View>
     )
 }

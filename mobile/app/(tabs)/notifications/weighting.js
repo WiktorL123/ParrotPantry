@@ -1,10 +1,10 @@
 import {View, Text} from "react-native";
 
 
-export default function Statistics() {
+export default function Weighting() {
     return (
         <View>
-            <Text>Statistics</Text>
+            <Text>Weighting</Text>
         </View>
     )
 }

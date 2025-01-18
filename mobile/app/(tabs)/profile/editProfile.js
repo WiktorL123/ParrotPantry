@@ -1,10 +1,10 @@
 import {View, Text} from "react-native";
 
 
-export default function Statistics() {
+export default function EditUserProfile() {
     return (
         <View>
-            <Text>Statistics</Text>
+            <Text>Edit User Profile</Text>
         </View>
     )
 }

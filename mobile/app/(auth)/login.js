@@ -147,9 +147,6 @@ export default function login() {
                 {/*/>*/}
                 {success && (<Text className={"text-green-500 text-sm mt-1"}>{success}</Text>)}
                 {globalError && (<Text className={"text-red-500 text-sm mt-1"}>{globalError}</Text>)}
-                {data && (
-                    <Text className={"text-orange-50"} > {JSON.stringify(data.token)}</Text>
-                )}
 
             </View>
         </View>

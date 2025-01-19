@@ -1,10 +1,14 @@
 import React from "react";
 import { View, Dimensions } from "react-native";
 import { LineChart } from "react-native-chart-kit";
+import {useTheme} from "../context/ThemeContext";
 
 export default function ExampleChart() {
+
+    const {theme} = useTheme()
+
     return (
-        <View className="bg-darkBgPrimary p-24 rounded-lg flex items-center justify-center">
+        <View className={`${theme === 'dark' ? 'bg-darkBgPrimary' : 'bg-white'} p-24 rounded-lg flex items-center justify-center`}>
             <LineChart
                 data={{
                     labels: ["Jan", "Feb", "Mar", "Apr", "May"],

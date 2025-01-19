@@ -7,7 +7,7 @@ export default function CustomTextInput({ placeholder, value, onChange, isDatePi
     const { theme } = useTheme();
     const [isPickerVisible, setIsPickerVisible] = useState(false);
 
-    const textColor = theme === "dark" ? "text-white" : "text-black";
+    const textColor = '#9E9E9E'
     const bgColor = theme === "dark" ? "bg-darkBgPrimary" : "bg-white";
 
     return (
@@ -27,6 +27,7 @@ export default function CustomTextInput({ placeholder, value, onChange, isDatePi
                         <DateTimePicker
                             value={value || new Date()}
                             mode="date"
+                            textColor={textColor}
                             display={Platform.OS === "ios" ? "inline" : "default"}
                             onChange={(event, selectedDate) => {
                                 setIsPickerVisible(false);
@@ -41,7 +42,7 @@ export default function CustomTextInput({ placeholder, value, onChange, isDatePi
                 <TextInput
                     className={`w-[306px] h-[38px] rounded-3xl border border-gray-400 pl-4 my-4 font-medium ${bgColor} ${textColor}`}
                     placeholder={placeholder}
-                    placeholderTextColor={theme === "dark" ? "#9E9E9E" : "#555555"}
+                    placeholderTextColor={textColor}
                     value={value}
                     onChangeText={onChange}
                 />

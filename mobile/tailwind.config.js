@@ -11,7 +11,8 @@ module.exports = {
         placeholder: '#9E9E9E',
         bgPrimary: '#5125BF',
         bgSecondary: '#3A6FE2',
-        darkBgPrimary: '#121212'
+        darkBgPrimary: '#121212',
+        tabsPrimary: '#8e8e93'
       },
       width: {
         'custom-269': '269px',

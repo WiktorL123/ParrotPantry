@@ -1,5 +1,5 @@
 import { View, Image, Text, TouchableOpacity, Modal } from "react-native";
-import { useState } from "react";
+import React, { useState } from "react";
 import Button from "./Button";
 import { useRouter } from "expo-router";
 import { useTheme } from "../context/ThemeContext";
@@ -30,12 +30,12 @@ export default function DashboardModal({ data, className }) {
             </View>
 
             <View className="flex items-center mt-4">
-                <Button
-                    text={"Visit Shop"}
-                    className="bg-bgPrimary w-[60%]"
-                    textClassName={"text-white"}
-                    onPress={() => router.push(data.url)}
-                />
+                <TouchableOpacity
+                    className={`w-custom-120 bg-bgPrimary h-8 rounded-3xl py-1 my-4 items-center justify-center `}
+                    onPress={()=>router.push(data.url)}
+                >
+                    <Text className={`text-center font-medium text-white `}> Visit Site</Text>
+                </TouchableOpacity>
             </View>
 
             <Modal

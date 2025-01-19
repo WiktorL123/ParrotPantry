@@ -1,4 +1,4 @@
-import {View, Text, ScrollView, SafeAreaView, StatusBar, Platform} from "react-native";
+import {View, Text, ScrollView, SafeAreaView, StatusBar, Platform, TouchableOpacity} from "react-native";
 import {useEffect, useState} from "react";
 import { useRouter} from "expo-router";
 import { useUser} from "../../../context/UserContext";
@@ -9,11 +9,15 @@ import DashboardSectionTitle from "../../../components/DashboardSectionTitle";
 import DashboardModal from "../../../components/DashboardModal";
 import ParrotDashboardModal from "../../../components/ParrotDashboardModal";
 import {MaterialIcons} from "@expo/vector-icons";
+import moment from "moment";
 
 
     export default function Home() {
 
     const {user, loadUserData} = useUser();
+    const [showMore, setShowMore] = useState(false);
+
+
     const  shop = {
                         name: 'zooplus',
                         url:  'https://www.zooplus.pl/checkout/login?notLoggedIn=true',
@@ -36,7 +40,7 @@ import {MaterialIcons} from "@expo/vector-icons";
         age: 2,
         wingspan: 30,
         food: "seeds",
-        lastVaccination: new Date("2025-01-01").toDateString()
+        lastVaccination:  moment("2025-01-01").format("D MMMM YYYY")
     }
     const {theme} = useTheme()
 
@@ -75,12 +79,25 @@ import {MaterialIcons} from "@expo/vector-icons";
               )}
 
               <View className={'my-8'}>
-                  <DashboardSectionTitle text={'Your Parrots'} className={'ml-10 my-4'}/>
+                  <View className={'flex-row justify-between my-4 '}>
+                      <DashboardSectionTitle text={'Your Parrots'} className={'ml-10'}/>
+                      <TouchableOpacity onPress={()=>setShowMore(!showMore)}>
+                          <Text className="text-textPrimary mt-1 mr-10" >{showMore ? 'Hide' : 'Show More'}</Text>
+                      </TouchableOpacity>
+                  </View>
+                  <View>
+                      <ParrotDashboardModal data={parrot} onAddNew={()=>router.push('/home/addParrot')}/>
+                      <ParrotDashboardModal data={parrot} onAddNew={()=>router.push('/home/addParrot')}/>
+                  </View>
 
-                  <ParrotDashboardModal data={parrot} onAddNew={()=>router.push('/home/addParrot')}/>
-                  <ParrotDashboardModal data={parrot} onAddNew={()=>router.push('/home/addParrot')}/>
-                  <ParrotDashboardModal data={parrot} onAddNew={()=>router.push('/home/addParrot')}/>
-                  <ParrotDashboardModal data={parrot} onAddNew={()=>router.push('/home/addParrot')}/>
+                  {showMore && (
+                      <View>
+                          <ParrotDashboardModal data={parrot} onAddNew={()=>router.push('/home/addParrot')}/>
+                          <ParrotDashboardModal data={parrot} onAddNew={()=>router.push('/home/addParrot')}/>
+                      </View>
+
+                  )}
+
                   <Button
                           text="Add New Parrot"
                           className="bg-bgPrimary m-auto"
@@ -88,6 +105,9 @@ import {MaterialIcons} from "@expo/vector-icons";
                           onPress={()=>router.push('/home/addParrot')}
                       />
               </View>
+
+
+
 
               <View >
                   <DashboardSectionTitle text={'Popular Pet Stores'} className={'ml-10 my-4'}/>

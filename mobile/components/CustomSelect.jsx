@@ -7,6 +7,8 @@ export default function CustomDropdown({ options, selectedValue, onSelect }) {
     const { theme } = useTheme();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+    const textColor = theme === "dark" ? "text-white" : "text-black";
+
     return (
         <View className="w-[306px]">
             <TouchableOpacity
@@ -16,7 +18,7 @@ export default function CustomDropdown({ options, selectedValue, onSelect }) {
                 }`}
             >
                 <Text
-                    className={`text-placeholder text-sm`}
+                    className={`${textColor} text-sm`}
                 >
                     {selectedValue || "Select an option"}
                 </Text>
@@ -60,4 +62,3 @@ export default function CustomDropdown({ options, selectedValue, onSelect }) {
         </View>
     );
 }
-

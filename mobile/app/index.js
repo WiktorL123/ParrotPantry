@@ -31,7 +31,6 @@ export default function App() {
                     backgroundColor={theme === 'dark' ? '#121212' : '#FFFFFF'}
                 />
 
-                <ThemeSwitch />
                 <Image
                     source={require('../assets/images/papuga.png')}
                     style={{ width: 200, height: 210, marginBottom: 20}}

@@ -15,6 +15,7 @@ module.exports = {
         tabsPrimary: '#8e8e93'
       },
       width: {
+        'custom-120': '100px',
         'custom-269': '269px',
         'custom-306': '306px'
       },

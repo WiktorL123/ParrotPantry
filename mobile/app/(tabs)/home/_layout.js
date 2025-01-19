@@ -41,6 +41,19 @@ export default function HomeLayout() {
                     headerShadowVisible: false
                 }}
             />
+
+            <Stack.Screen
+                name="weightParrot"
+                options={{
+                    headerLeft: ()=><BackButton/>,
+                    headerTitle: "",
+                    headerTintColor: "#5125BF",
+                    headerStyle: {
+                        backgroundColor: theme === 'dark' ? '#121212' : '#FFFFFF'
+                    },
+                    headerShadowVisible: false
+                }}
+            />
         </Stack>
     );
 }

@@ -40,7 +40,7 @@ export default function CustomTextInput({ placeholder, value, onChange, isDatePi
                 </>
             ) : (
                 <TextInput
-                    className={`w-[306px] h-[38px] rounded-3xl border border-gray-400 pl-4 my-4 font-medium ${bgColor} ${textColor}`}
+                    className={`w-[306px] h-[38px] rounded-3xl border border-gray-400 pl-4 my-4 font-medium ${bgColor} ${theme === 'dark' ? 'text-white' : 'text-black'}`}
                     placeholder={placeholder}
                     placeholderTextColor={textColor}
                     value={value}

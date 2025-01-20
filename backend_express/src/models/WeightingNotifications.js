@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const feedingNotificationSchema = new mongoose.Schema({
+const weightingNotificationSchema = new mongoose.Schema({
     parrotId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Parrot',
@@ -20,6 +20,11 @@ const feedingNotificationSchema = new mongoose.Schema({
         minlength: 1,
         maxlength: 500
     },
+    type: {
+        type: String,
+        required: true,
+        enum: ['one-time', 'recurring']
+    },
     date: {
         type: Date,
         required: true,
@@ -32,14 +37,9 @@ const feedingNotificationSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now
-    },
-    type: {
-        type: String,
-        required: true,
-        enum: ['one-time', 'recurring']
     }
 }, { versionKey: false });
 
-const FeedingNotification = mongoose.model('FeedingNotification', feedingNotificationSchema, 'feedingNotifications');
+const WeightingNotification = mongoose.model('WeightingNotification', weightingNotificationSchema, 'weightingNotifications');
 
-module.exports = FeedingNotification;
+module.exports = WeightingNotification;

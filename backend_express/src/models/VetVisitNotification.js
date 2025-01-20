@@ -11,6 +11,11 @@ const vetVisitNotificationSchema = new mongoose.Schema({
         ref: 'Veterinarian',
         required: true
     },
+    ownerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
     name: {
         type: String,
         required: true,

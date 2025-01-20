@@ -10,7 +10,9 @@ const ShopsRoutes = require('./routes/ShopsRoutes');
 const VeterinariansRoutes = require('./routes/VeterinariansRoutes');
 const WeightNormsRoutes = require('./routes/WeightNormsRoutes');
 const MedicineRoutes = require('./routes/MedicineNotificationsRoutes');
-const vetVisitsNotificaionsRoutes = require('./routes/VetVisitsNotificationsRoutes');
+const vetVisitsNotificationsRoutes = require('./routes/VetVisitsNotificationsRoutes');
+const WeightingNotificationsRoutes = require('./routes/WeightingNotificationsRoutes');
+const FeedingNotificationsRoutes = require('./routes/FeedingNotificationsRoutes');
 const app = express();
 const port = 3000
 
@@ -28,9 +30,9 @@ app.use('/api/shops', ShopsRoutes)
 app.use('/api/veterinarians', VeterinariansRoutes)
 app.use('/api/weight-norms', WeightNormsRoutes)
 app.use('/api/medicineNotifications', MedicineRoutes)
-app.use('/api/vetVisitsNotifications', vetVisitsNotificaionsRoutes)
-
-
+app.use('/api/vetVisitsNotifications', vetVisitsNotificationsRoutes)
+app.use('/api/weightingNotifications', WeightingNotificationsRoutes)
+app.use('/api/feedingNotifications', FeedingNotificationsRoutes)
 connectDB()
 
 

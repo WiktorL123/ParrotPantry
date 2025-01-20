@@ -37,6 +37,7 @@ const addVetVisitNotification = async (req, res) => {
         }
 
         const newVetVisitNotification = new VetVisitNotification({
+            ownerId: userId,
             parrotId,
             vetId,
             userId,

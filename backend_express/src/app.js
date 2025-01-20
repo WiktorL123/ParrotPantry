@@ -9,6 +9,7 @@ const ParrotsRoutes = require('./routes/ParrotsRoutes');
 const ShopsRoutes = require('./routes/ShopsRoutes');
 const VeterinariansRoutes = require('./routes/VeterinariansRoutes');
 const WeightNormsRoutes = require('./routes/WeightNormsRoutes');
+const MedicineRoutes = require('./routes/MedicineNotificationsRoutes');
 const app = express();
 const port = 3000
 
@@ -25,6 +26,8 @@ app.use('/api/parrots', ParrotsRoutes)
 app.use('/api/shops', ShopsRoutes)
 app.use('/api/veterinarians', VeterinariansRoutes)
 app.use('/api/weight-norms', WeightNormsRoutes)
+app.use('/api/medicineNotifications', MedicineRoutes)
+
 
 connectDB()
 

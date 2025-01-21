@@ -11,7 +11,7 @@ const weightRecordSchema = new mongoose.Schema({
         type: Number,
         required: true,
         min: 100,
-        max: 1000
+        max: 10000
     }
 }, { _id: false });
 

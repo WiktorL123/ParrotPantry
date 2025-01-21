@@ -25,7 +25,7 @@ app.use('/users', UserRoutes);
 app.use('/api/parrots', ParrotsRoutes)
 app.use('/api/shops', ShopsRoutes)
 app.use('/api/veterinarians', VeterinariansRoutes)
-app.use('/api/weight-norms', WeightNormsRoutes)
+app.use('/api/weightRecords', WeightNormsRoutes)
 app.use('/api/medicineNotifications', MedicineRoutes)
 
 

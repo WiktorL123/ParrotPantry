@@ -1,103 +1,98 @@
-const WeightNorm = require("../models/WeightNorm");
+const moment = require('moment');
+const Parrot = require('../models/Parrot');
+const WeightNorms = require('../models/WeightNorm');
 
-const getAllWeightNorms = async (req, res) => {
+
+
+const addWeightRecord = async (req, res) => {
     try {
-        const allWeightNorms = await WeightNorm.find()
+        const { parrotId } = req.params;
+        const { date, weight } = req.body;
 
-        if(!allWeightNorms) {
-            return res.status(404).json({message: 'No weight norms found'})
+        if (!date || !weight) {
+            return res.status(400).json({ message: 'Date and weight are required.' });
         }
 
-        return res.status(200).json(allWeightNorms)
-    }
-    catch (error) {
-        return res.status(400).json(error)
-    }
-}
+        const parrot = await Parrot.findById(parrotId);
+        if (!parrot) {
+            return res.status(404).json({ message: 'Parrot not found.' });
+        }
 
-const getWeightNormById = async (req, res) => {
+        const inputDate = moment(date);
+        const currentWeekStart = moment(inputDate).startOf('isoWeek'); // Początek tygodnia dla podanej daty
+
+        // Sprawdź, czy istnieją dane z poprzedniego tygodnia w `weightRecords`
+        if (parrot.weightRecords.length > 0) {
+            const firstRecordWeekStart = moment(parrot.weightRecords[0].date).startOf('isoWeek');
+
+            if (!firstRecordWeekStart.isSame(currentWeekStart)) {
+                // Przenieś dane do `historicalWeightRecords`
+                parrot.historicalWeightRecords.push([...parrot.weightRecords]);
+                parrot.weightRecords = [];
+            }
+        }
+
+        // Sprawdź, czy dla tej daty jest już wpis
+        const existingRecord = parrot.weightRecords.find((record) =>
+            moment(record.date).isSame(inputDate, 'day')
+        );
+
+        if (existingRecord) {
+            return res.status(400).json({ message: 'Weight for this date has already been recorded.' });
+        }
+
+        // Dodaj nowy rekord
+        parrot.weightRecords.push({ date, weight });
+        await parrot.save();
+
+        // Przygotowanie odpowiedzi
+        res.status(200).json({
+            message: 'Weight record added successfully.',
+            parrot: {
+                _id: parrot._id,
+                weightRecords: parrot.weightRecords,
+                historicalWeightRecords: parrot.historicalWeightRecords,
+            },
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Error adding weight record.', error: error.message });
+    }
+};
+
+
+
+
+
+const getWeightRecordsForWeek = async (req, res) => {
     try {
-        const id = req.params.id;
+        const { parrotId } = req.params;
 
-        if(!id) {
-            return res.status(400).json({message: 'Invalid ID format'})
+        // Znajdź papugę
+        const parrot = await Parrot.findById(parrotId);
+        if (!parrot) {
+            return res.status(404).json({ message: 'Parrot not found.' });
         }
 
-        const weightNorm = await WeightNorm.findById(id)
-        if(!weightNorm) {
-            return res.status(404).json({message: 'No weight norms found'})
+        // Znajdź normy wagowe dla gatunku papugi
+        const weightNorms = await WeightNorms.findOne({ species: parrot.species });
+        if (!weightNorms) {
+            return res.status(404).json({
+                message: `No weight norms found for species: ${parrot.species}`
+            });
         }
 
-        return res.status(200).json(weightNorm)
+        // Przygotuj odpowiedź
+        res.status(200).json({
+            currentWeek: parrot.weightRecords, // Dane bieżącego tygodnia
+            historicalWeightRecords: parrot.historicalWeightRecords, // Dane historyczne
+            weeklyWeightNorms: weightNorms.weeklyWeightNorms // Normy wagowe dla bieżącego tygodnia
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching weight records.', error: error.message });
     }
-    catch (error) {
-        return res.status(400).json(error)
-    }
-}
-
-
-const addWeightNorm = async (req, res) => {
-    try {
-        const weightNorm = req.body
-        if(!weightNorm) {
-            return res.status(400).json({message: 'Request body empty'})
-        }
-
-        const newWeightNorm = new WeightNorm(weightNorm)
-        await newWeightNorm.save()
-        return res.status(200).json(newWeightNorm)
-    }
-    catch (error) {
-        return res.status(400).json(error)
-    }
-}
-
-const updateWeightNorm = async (req, res) => {
-    try {
-        const id = req.params.id;
-        if(!id) {
-            return res.status(400).json({message: 'Invalid ID format'})
-        }
-
-        const weightNorm = req.body
-        if(!weightNorm) {
-            return res.status(400).json({message: 'Request body empty'})
-        }
-
-        const updateWeightNorm = await WeightNorm.findByIdAndUpdate(id, weightNorm)
-        if(!updateWeightNorm) {
-            return res.status(404).json({message: 'Weight norm not found'})
-        }
-        return res.status(200).json({message: 'Weight norm updated successfully'})
-    }
-    catch (error) {
-        return res.status(400).json(error)
-    }
-}
-
-const deleteWeightNorm = async (req, res) => {
-    try {
-        const id = req.params.id;
-
-        if(!id) {
-            return res.status(400).json({message: 'Invalid ID format'})
-        }
-
-        const deleteWeightNorm = await WeightNorm.findByIdAndDelete(id)
-        if(!deleteWeightNorm) {
-            return res.status(4004).json({message: 'Weight norm not found'})
-        }
-        return res.status(200).json({message: 'Weight norm deleted successfully'})
-    }
-    catch (error) {
-        return res.status(400).json(error)
-    }
-}
+};
 
 module.exports = {
-    getAllWeightNorms,
-    getWeightNormById,
-    addWeightNorm,
-    updateWeightNorm,
-    deleteWeightNorm,
-}
+    addWeightRecord,
+    getWeightRecordsForWeek
+};

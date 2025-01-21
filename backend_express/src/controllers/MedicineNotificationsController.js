@@ -1,34 +1,60 @@
-const Medicine = require("../Models/MedicineNotification");
-
+const Medicine = require("../models/MedicineNotification");
+const Parrot = require("../models/Parrot");
+const mongoose = require("mongoose");
 
 const getAllMedicines = async (req, res) => {
     try {
-        const {parrotId} = req.params;
+        const { parrotId } = req.params;
+        const userId = req.user.id;
 
         if (!parrotId) {
-            return res.status(404).json({message: "Invalid ID format"})
+            return res.status(400).json({ message: "Invalid ID format" });
         }
 
-        const allMedicines = await Medicine.find({parrotId})
-
-        if(!allMedicines) {
-            return res.status(404).json({message: "No Medicines found."})
+        // Weryfikacja właściciela papugi
+        const parrot = await Parrot.findOne({
+            _id: new mongoose.Types.ObjectId(parrotId),
+            ownerId: new mongoose.Types.ObjectId(userId),
+        });
+        if (!parrot) {
+            return res.status(403).json({ message: "You do not have permission to access this parrot's notifications." });
         }
-        res.status(200).json(allMedicines)
+
+        // Pobranie powiadomień
+        const allMedicines = await Medicine.find({
+            parrotId: new mongoose.Types.ObjectId(parrotId),
+            ownerId: new mongoose.Types.ObjectId(userId),
+        });
+
+        if (!allMedicines.length) {
+            return res.status(404).json({ message: "No medicines found." });
+        }
+
+        res.status(200).json(allMedicines);
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error: error.message });
     }
-    catch (error) {
-        res.status(500).json(error)
-    }
-}
+};
 
 
 const addMedicine = async (req, res) => {
     try {
         const { parrotId } = req.params;
+        const userId = req.user.id;
+
         const { name, description, type, date, hour } = req.body;
 
         if (!parrotId) {
             return res.status(400).json({ message: "Invalid parrot ID format." });
+        }
+
+        // Weryfikacja właściciela papugi
+        const parrot = await Parrot.findOne({
+            _id: new mongoose.Types.ObjectId(parrotId),
+            ownerId: new mongoose.Types.ObjectId(userId),
+        });
+        if (!parrot) {
+            return res.status(403).json({ message: "You do not have permission to add a notification for this parrot." });
         }
 
         if (!name || !description || !type || !date || !hour) {
@@ -36,49 +62,64 @@ const addMedicine = async (req, res) => {
         }
 
         const newMedicine = new Medicine({
-            parrotId,
+            parrotId: new mongoose.Types.ObjectId(parrotId),
+            ownerId: new mongoose.Types.ObjectId(userId),
             name,
             description,
             type,
             date,
-            hour
+            hour,
         });
 
         const savedMedicine = await newMedicine.save();
 
         res.status(201).json({
             message: "Medicine notification created successfully.",
-            notification: savedMedicine
+            notification: savedMedicine,
         });
     } catch (error) {
         res.status(500).json({ message: "Error creating medicine notification.", error: error.message });
     }
 };
-
-
-
 const deleteMedicine = async (req, res) => {
     try {
-        const {parrotId, id} = req.params;
-        if (!parrotId) {
-            return res.status(404).json({message: "Invalid ID format"})
+        const { parrotId, id } = req.params;
+        const userId = req.user.id;
+
+        if (!parrotId || !id) {
+            return res.status(400).json({ message: "Invalid ID format" });
         }
 
-        const deleteMedicine = await Medicine.findByIdAndDelete({_id: id, parrotId})
-        if(!deleteMedicine) {
-            return res.status(404).json({message: "No Medicine found."})
+        // Weryfikacja właściciela papugi
+        const parrot = await Parrot.findOne({
+            _id: new mongoose.Types.ObjectId(parrotId),
+            ownerId: new mongoose.Types.ObjectId(userId),
+        });
+        if (!parrot) {
+            return res.status(403).json({ message: "You do not have permission to delete a notification for this parrot." });
         }
 
-        res.status(200).json("Medicine notification deleted successfully.")
+        // Usunięcie powiadomienia
+        const deletedMedicine = await Medicine.findOneAndDelete({
+            _id: new mongoose.Types.ObjectId(id),
+            parrotId: new mongoose.Types.ObjectId(parrotId),
+            ownerId: new mongoose.Types.ObjectId(userId),
+        });
 
-    }
-    catch (error) {
-        res.status(500).json(error)
-    }
-}
+        if (!deletedMedicine) {
+            return res.status(404).json({ message: "No medicine found." });
+        }
 
+        res.status(200).json({
+            message: "Medicine notification deleted successfully.",
+            notification: deletedMedicine,
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+};
 module.exports = {
     getAllMedicines,
     addMedicine,
-    deleteMedicine
+    deleteMedicine,
 }

@@ -4,15 +4,16 @@ const weightRecordSchema = new mongoose.Schema({
     date: {
         type: Date,
         required: true,
-        default: Date.now
+        default: Date.now,
+        unique: true
     },
     weight: {
         type: Number,
         required: true,
         min: 100,
-        max: 1000
+        max: 10000
     }
-}, {versionKey: false});
+}, { _id: false });
 
 const parrotSchema = new mongoose.Schema({
     ownerId: {
@@ -58,6 +59,18 @@ const parrotSchema = new mongoose.Schema({
     },
     weightRecords: {
         type: [weightRecordSchema],
+        default: [],
+        validate: {
+            validator: (records) => {
+                const uniqueDates = new Set(records.map((record) => record.date.toISOString()));
+                return uniqueDates.size === records.length;
+            },
+            message: 'Duplicate weight records for the same date are not allowed.'
+        }
+    },
+    historicalWeightRecords: {
+        type: [[weightRecordSchema]],
+        default: []
     },
     createdAt: {
         type: Date,
@@ -67,8 +80,13 @@ const parrotSchema = new mongoose.Schema({
         type: Date,
         default: null
     }
-}, {versionKey: false});
+}, { versionKey: false });
 
-const parrot = mongoose.model('Parrot', parrotSchema);
+parrotSchema.pre('save', function (next) {
+    this.updatedAt = new Date();
+    next();
+});
 
-module.exports = parrot;
+const Parrot = mongoose.model('Parrot', parrotSchema);
+
+module.exports = Parrot;

@@ -5,10 +5,8 @@ const verifyToken = require('../middlewares/verifyToken');
 
 router.use(verifyToken);
 
-router.get('/', WeightNormsController.getAllWeightNorms)
-router.get('/:id', WeightNormsController.getWeightNormById)
-router.post('/', WeightNormsController.addWeightNorm)
-router.put('/:id', WeightNormsController.updateWeightNorm)
-router.delete('/:id', WeightNormsController.deleteWeightNorm)
+router.post('/:parrotId/add', WeightNormsController.addWeightRecord);
+
+router.get('/:parrotId/current', WeightNormsController.getWeightRecordsForWeek);
 
 module.exports = router;

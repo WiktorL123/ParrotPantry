@@ -13,7 +13,7 @@ const weeklyWeightNormSchema = new mongoose.Schema({
         min: 100,
         max: 1000
     }
-}, {versionKey: false});
+}, { _id: false });
 
 const weightNormSchema = new mongoose.Schema({
     species: {
@@ -25,15 +25,18 @@ const weightNormSchema = new mongoose.Schema({
     },
     weeklyWeightNorms: {
         type: [weeklyWeightNormSchema],
+        default: [],
+        validate: {
+            validator: (v) => v.length === 7,
+            message: 'Weekly weight norms must contain exactly 7 days.'
+        }
     },
     createdAt: {
         type: Date,
         default: Date.now
     }
-}, {versionKey: false});
+}, { versionKey: false });
 
+const WeightNorm = mongoose.model('WeightNorm', weightNormSchema, 'weightNorms');
 
-const weightNorm = mongoose.model('WeightNorm', weightNormSchema, 'weightNorms');
-
-
-module.exports = weightNorm;
+module.exports = WeightNorm;

@@ -11,6 +11,20 @@ const vetVisitNotificationSchema = new mongoose.Schema({
         ref: 'Veterinarian',
         required: true
     },
+    name: {
+        type: String,
+        required: true,
+        trim: true,
+        minlength: 3,
+        maxlength: 100
+    },
+    description: {
+        type: String,
+        required: true,
+        trim: true,
+        minlength: 1,
+        maxlength: 500
+    },
     date: {
         type: Date,
         required: true,
@@ -30,10 +44,8 @@ const vetVisitNotificationSchema = new mongoose.Schema({
         enum: ['upcoming', 'completed', 'cancelled'],
         default: 'upcoming'
     }
-}, {versionKey: false});
+}, { versionKey: false });
 
+const VetVisitNotification = mongoose.model('VetVisitNotification', vetVisitNotificationSchema, 'vetVisitNotifications');
 
-const vetVisitNotification =  mongoose.model('VetVisitNotification', vetVisitNotificationSchema, 'vetVisitNotifications');
-
-
-module.exports = vetVisitNotification;
+module.exports = VetVisitNotification;

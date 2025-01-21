@@ -17,14 +17,8 @@ const medicineNotificationSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        minlength: 10,
+        minlength: 1,
         maxlength: 500
-    },
-    amount: {
-        type: Number,
-        required: true,
-        min: 1,
-        max: 1000
     },
     date: {
         type: Date,
@@ -34,16 +28,13 @@ const medicineNotificationSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    status: {
+    type: {
         type: String,
         required: true,
-        enum: ['pending', 'completed', 'cancelled'],
-        default: 'pending'
+        enum: ['one-time', 'recurring']
     }
-}, {versionKey: false});
+}, { versionKey: false });
 
+const MedicineNotification = mongoose.model('MedicineNotification', medicineNotificationSchema, 'medicineNotifications');
 
-const medicineNotification = mongoose.model('MedicineNotification', medicineNotificationSchema, 'medicineNotifications');
-
-
-module.exports = medicineNotification;
+module.exports = MedicineNotification;

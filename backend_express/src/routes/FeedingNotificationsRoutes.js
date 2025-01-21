@@ -5,7 +5,7 @@ const FeedingNotificationsController = require("../controllers/FeedingNotificati
 router.use(verifyToken)
 router.get('/:parrotId', FeedingNotificationsController.getAllFeedingNotifications)
 router.post('/:parrotId', FeedingNotificationsController.addFeedingNotification)
-router.delete('/:parrotId:/id', FeedingNotificationsController.deleteFeedingNotification)
+router.delete('/:parrotId/:id', FeedingNotificationsController.deleteFeedingNotification)
 
 
 module.exports = router;

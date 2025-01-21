@@ -1,4 +1,5 @@
 const VetVisitNotification = require("../Models/VetVisitNotification");
+const Parrot = require('../models/Parrot')
 
 const getAllVisitsNotification = async (req, res) => {
     try {
@@ -9,7 +10,7 @@ const getAllVisitsNotification = async (req, res) => {
             return res.status(404).json({ message: "Invalid ID format" });
         }
 
-        const allVetVisits = await VetVisitNotification.find({ parrotId, userId });
+        const allVetVisits = await VetVisitNotification.find({ parrotId, ownerId: userId });
 
         if (!allVetVisits.length) {
             return res.status(404).json({ message: "No vet visits found" });
@@ -27,7 +28,7 @@ const addVetVisitNotification = async (req, res) => {
         const userId = req.user.id;
 
         if (!parrotId || !vetId) {
-            return res.status(400).json({ message: "Invalid parrot ID format." });
+            return res.status(400).json({ message: "Invalid parrot ID or vet ID format." });
         }
 
         const { name, description, status, date, hour } = req.body;
@@ -36,11 +37,15 @@ const addVetVisitNotification = async (req, res) => {
             return res.status(400).json({ message: "Missing required fields" });
         }
 
+        const parrot = await Parrot.findOne({ _id: parrotId, ownerId: userId });
+        if (!parrot) {
+            return res.status(403).json({ message: "You do not have permission to add a vet visit for this parrot." });
+        }
+
         const newVetVisitNotification = new VetVisitNotification({
             ownerId: userId,
             parrotId,
             vetId,
-            userId,
             name,
             description,
             date,
@@ -49,25 +54,31 @@ const addVetVisitNotification = async (req, res) => {
         });
 
         const savedVetVisitNotification = await newVetVisitNotification.save();
-        res.status(200).json(savedVetVisitNotification);
+        res.status(201).json(savedVetVisitNotification);
     } catch (error) {
-        res.status(500).json(error);
+        res.status(500).json({ message: "Error creating vet visit notification.", error: error.message });
     }
-};
-
+}
 const deleteVetVisitNotification = async (req, res) => {
     try {
         const { parrotId, id } = req.params;
         const userId = req.user.id;
 
+        // Walidacja danych wejściowych
         if (!parrotId || !id) {
             return res.status(400).json({ message: "Invalid parrot ID or notification ID format." });
         }
 
+        // Sprawdzenie, czy papuga należy do użytkownika
+        const parrot = await Parrot.findOne({ _id: parrotId, ownerId: userId });
+        if (!parrot) {
+            return res.status(403).json({ message: "You do not have permission to delete notifications for this parrot." });
+        }
+
+        // Usunięcie wizyty
         const deletedVetVisitNotification = await VetVisitNotification.findOneAndDelete({
             _id: id,
             parrotId,
-            userId,
         });
 
         if (!deletedVetVisitNotification) {

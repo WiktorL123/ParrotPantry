@@ -39,4 +39,4 @@ connectDB()
 app.listen(port, () => {
     console.log(`Server działa na porcie: ${port}`)
 })
-///
+module.exports = app; // Eksport aplikacji

@@ -37,50 +37,51 @@ export default function login() {
 
     const handleSubmit = async () => {
          try {
-        //     setErrors({});
-        //     setSuccess("");
-        //     setGlobalError("");
-        //     await loginSchema.validate(formData, {abortEarly: false});
-        //
-        //     const response = await fetch("http://localhost:3000/auth/login", {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify({
-        //             email: formData.email,
-        //             password: formData.password,
-        //         })
-        //     })
-        //
-        //     if (!response.ok) {
-        //         const errorData = await response.json()
-        //         setGlobalError(errorData.message);
-        //         throw new Error(errorData.message);
-        //     }
-        //     const data = await response.json();
-        //     setData(data)
-        //     console.log(data.token)
-        //     setSuccess(`logged in successfully, welcome ${formData.email}.`);
-        //     console.log('data before saving: ', data)
-        //     await saveUserData(
-        //         {
-        //             authToken:data.token,
-        //             email:data.email,
-        //             userId:data.userId,
-        //             firstName:data.firstName,
-        //             lastName:data.lastName,
-        //             userColor: data.profileBackgroundColor
-        //         })
+             console.log(formData)
+            setErrors({});
+            setSuccess("");
+            setGlobalError("");
+            await loginSchema.validate(formData, {abortEarly: false});
+
+            const response = await fetch("http://10.0.2.2:4000/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: formData.email,
+                    password: formData.password,
+                })
+            })
+
+            if (!response.ok) {
+                const errorData = await response.json()
+                setGlobalError(errorData.message);
+                throw new Error(errorData.message);
+            }
+            const data = await response.json();
+            setData(data)
+            console.log(data.token)
+            setSuccess(`logged in successfully, welcome ${formData.email}.`);
+            console.log('data before saving: ', data)
+            await saveUserData(
+                {
+                    authToken:data.token,
+                    email:data.email,
+                    userId:data.userId,
+                    firstName:data.firstName,
+                    lastName:data.lastName,
+                    userColor: data.profileBackgroundColor
+                })
 
          //^logic of validation and sending data to backend - ENABLE LATER!!!
 
 
-            await saveUserDataOffline()
-            router.push("/home")
-            // setTimeout(()=>{
-            //     router.push("/home");
-            // }, 2500)
+            // await saveUserDataOffline()
+            // router.push("/home")
+            setTimeout(()=>{
+                router.push("/home");
+            }, 2500)
 
         }
         catch(error) {
@@ -90,6 +91,7 @@ export default function login() {
                         formattedErrors[error.path] = error.message;
                     })
                     setErrors(formattedErrors);
+                    console.log(formattedErrors);
                 }
                 else {
                     setGlobalError(error.message);

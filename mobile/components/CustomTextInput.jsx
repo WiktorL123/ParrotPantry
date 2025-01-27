@@ -3,7 +3,7 @@ import { TextInput, TouchableOpacity, Text, Platform } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useTheme } from "../context/ThemeContext";
 
-export default function CustomTextInput({ placeholder, value, onChange, isDatePicker }) {
+export default function CustomTextInput({ placeholder, value, onChange, isDatePicker, secureTextEntry }) {
     const { theme } = useTheme();
     const [isPickerVisible, setIsPickerVisible] = useState(false);
 
@@ -45,6 +45,7 @@ export default function CustomTextInput({ placeholder, value, onChange, isDatePi
                     placeholderTextColor={textColor}
                     value={value}
                     onChangeText={onChange}
+                    secureTextEntry={secureTextEntry || false}
                 />
             )}
         </>

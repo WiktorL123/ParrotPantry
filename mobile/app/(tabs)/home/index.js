@@ -52,48 +52,67 @@ export default function Home() {
 
     const shops = [
         {
-            name: 'zooplus',
-            url: 'https://www.zooplus.pl/checkout/login?notLoggedIn=true',
+            name: 'Daisy Sklep Zoologiczny',
+            url: 'https://daisyzoologia.pl/nasze-sklepy/gdansk/',
             logo: require('../../../assets/icon.png'),
-            description: 'Description for Shop 1'
+            description: 'Sklep oferuje szeroki asortyment karm, środków pielęgnacyjnych, suplementów diety oraz akcesoriów dla różnych zwierząt, w tym ptaków.',
+            address: 'Stanisława Worcella 44A, 80-809 Gdańsk',
         },
         {
-            name: 'PetStore',
-            url: 'https://www.petstore.com',
+            name: 'Zoo Karina',
+            url: 'https://zookarina.pl/',
             logo: require('../../../assets/icon.png'),
-            description: 'Description for Shop 2'
+            description: 'Sieć sklepów zoologicznych oferująca karmy, przysmaki, zabawki oraz akcesoria dla zwierząt domowych, w tym ptaków.',
+            address: 'Park Handlowy Matarnia, ul. Złota Karczma 26, 80-298 Gdańsk',
         },
         {
-            name: 'Animal World',
-            url: 'https://www.animalworld.com',
+            name: 'Kakadu Zoo',
+            url: 'https://kakadu.pl/',
             logo: require('../../../assets/icon.png'),
-            description: 'Description for Shop 3'
+            description: 'Sklep zoologiczny oferujący pokarmy, terraria oraz akcesoria dla różnych zwierząt, w tym ptaków egzotycznych.',
+            address: 'Galeria Bałtycka, al. Grunwaldzka 141, 80-264 Gdańsk',
         }
     ];
 
     const veterinarians = [
         {
-            name: 'Veterzynarz Przymorze',
-            address: 'Street 1, City',
-            contact: '+12345678900',
-            specialization: 'Exotic birds',
-            url: 'https://nordvet.pl/',
+            name: 'ANIMAL.MED Specjalistyczna Przychodnia Weterynaryjna',
+            address: 'ul. Kartuska 249, 80-125 Gdańsk',
+            contact: '+48 58 302 00 03',
+            specialization: 'Leczenie, profilaktyka, stomatologia i chirurgia zwierząt egzotycznych, w tym ptaków.',
+            url: 'https://animal.med.pl/',
             logo: require('../../../assets/icon.png'),
         },
         {
-            name: 'Exotic Vet',
-            address: 'Street 2, City',
-            contact: '+98765432100',
-            specialization: 'Birds and reptiles',
-            url: 'https://exoticvet.com',
+            name: 'EgzooVet lek. wet. Przemysław Łuczak',
+            address: 'ul. Świętokrzyska 33A, 80-180 Gdańsk',
+            contact: '+48 58 300 00 00',
+            specialization: 'Kompleksowe leczenie zwierząt egzotycznych, w tym ptaków.',
+            url: 'https://www.trojmiasto.pl/EgzooVet-P-Luczak-o73578.html',
             logo: require('../../../assets/icon.png'),
         },
         {
-            name: 'Avian Care',
-            address: 'Street 3, City',
-            contact: '+1234509876',
-            specialization: 'Avian specialists',
-            url: 'https://avian.com',
+            name: 'Trójmiejska Klinika Weterynaryjna',
+            address: 'ul. Morska 12, 80-001 Gdańsk',
+            contact: '+48 58 300 00 01',
+            specialization: 'Całodobowa opieka nad zwierzętami, w tym ptakami egzotycznymi.',
+            url: 'https://www.trojmiasto.pl/Trojmiejska-Klinika-Weterynaryjna-o61889.html',
+            logo: require('../../../assets/icon.png'),
+        },
+        {
+            name: 'Weterynarz Przymorze',
+            address: 'ul. Kołobrzeska 32B, 80-394 Gdańsk',
+            contact: '+48 58 557 37 02',
+            specialization: 'Leczenie psów, kotów oraz ptaków, gadów i płazów.',
+            url: 'https://www.weterynarzprzymorze.pl/',
+            logo: require('../../../assets/icon.png'),
+        },
+        {
+            name: 'NewVet Chełm',
+            address: 'ul. Cieszyńskiego 36, 80-809 Gdańsk',
+            contact: '+48 58 300 00 02',
+            specialization: 'Leczenie gadów, płazów oraz ptaków egzotycznych.',
+            url: 'https://www.newvetchelm.pl/',
             logo: require('../../../assets/icon.png'),
         }
     ];

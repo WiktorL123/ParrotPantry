@@ -14,7 +14,7 @@ const vetVisitsNotificationsRoutes = require('./routes/VetVisitsNotificationsRou
 const WeightingNotificationsRoutes = require('./routes/WeightingNotificationsRoutes');
 const FeedingNotificationsRoutes = require('./routes/FeedingNotificationsRoutes');
 const app = express();
-const port = 3000
+const port = 4000
 
 app.use(cors());
 app.use(express.json())
